@@ -15,4 +15,9 @@
     <string name="register">注册</string>
     <string name="havecount">已有账号直接登录</string>
     <string name="outenter">退出登录</string>
+    <string name="name">姓名</string>
+    <string name="sex">性别</string>
+    <string name="email">邮箱</string>
+    <string name="motto">签名</string>
+    <string name="work">所处职业</string>
 </resources>

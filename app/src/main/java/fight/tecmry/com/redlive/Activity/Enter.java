@@ -68,7 +68,7 @@ public class Enter extends AppCompatActivity implements View.OnClickListener{
         final String userpasswords = PassWords.getText().toString();
 
         View focusview = null;
-        boolean cancel = true;
+        boolean cancel = false;
 
         if (TextUtils.isEmpty(userpasswords)&&!isPasswordValid(userpasswords))
         {

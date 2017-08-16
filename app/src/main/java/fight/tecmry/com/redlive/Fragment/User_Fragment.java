@@ -78,7 +78,9 @@ public class User_Fragment extends Fragment implements View.OnClickListener{
                {
                    Toast.makeText(getContext(),"登都没登还退！！",Toast.LENGTH_SHORT).show();
                }else {
+                   Toast.makeText(getContext(),"您已退出",Toast.LENGTH_SHORT).show();
                    AVUser.getCurrentUser().logOut();
+                   username.setText("");
                }
                break;
         }
