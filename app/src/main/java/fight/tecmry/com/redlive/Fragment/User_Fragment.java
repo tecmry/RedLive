@@ -20,7 +20,7 @@ public class User_Fragment extends Fragment{
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.third_place,container,false);
+        View view = inflater.inflate(R.layout.user_news,container,false);
         return view;
     }
 

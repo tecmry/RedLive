@@ -3,12 +3,14 @@
     import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v7.app.AppCompatActivity;
-    import android.util.Log;
+import android.util.Log;
 
-    import fight.tecmry.com.redlive.Fragment.HomePage_Fragment;
-    import fight.tecmry.com.redlive.Fragment.State_Fragment;
-    import fight.tecmry.com.redlive.Fragment.User_Fragment;
-    import fight.tecmry.com.redlive.R;
+import com.avos.avoscloud.AVObject;
+
+import fight.tecmry.com.redlive.Fragment.HomePage_Fragment;
+import fight.tecmry.com.redlive.Fragment.State_Fragment;
+import fight.tecmry.com.redlive.Fragment.User_Fragment;
+import fight.tecmry.com.redlive.R;
 
     public class MainActivity extends AppCompatActivity {
 private TabLayout tableLayout;
@@ -17,6 +19,10 @@ private TabLayout tableLayout;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         tableLayout = (TabLayout)findViewById(R.id.tab_layout2);
+
+        
+        AVObject testObject = new AVObject("TestObject");
+
 
 
         setTab();

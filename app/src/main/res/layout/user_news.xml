@@ -1,6 +1,197 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/layoutbacground"
+    >
+    <android.support.v7.widget.Toolbar
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:id="@+id/usernews_toolbar"
+        android:background="@color/toolbarcolor"
+        android:navigationIcon="@drawable/back"
+        app:navigationIcon="@drawable/back"
+        ></android.support.v7.widget.Toolbar>
 
-</LinearLayout>
+    <TextView
+        android:id="@+id/usernews_username"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:hint="UserName"
+        android:gravity="center"
+        android:layout_above="@+id/relativeLayout"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="11dp" />
+
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="70dp"
+    android:layout_below="@+id/usernews_toolbar"
+    android:layout_marginTop="4dp"
+    android:background="@color/white"
+    android:id="@+id/relativeLayout">
+
+</RelativeLayout>
+
+    <TextView
+        android:id="@+id/studytimes_details"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignTop="@+id/relativeLayout"
+        android:layout_marginStart="31dp"
+        android:layout_marginTop="13dp"
+         />
+
+    <TextView
+        android:id="@+id/studytimes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/studytime"
+        android:layout_below="@+id/studytimes_details"
+        android:layout_alignStart="@+id/studytimes_details"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        />
+
+    <TextView
+        android:id="@+id/addItems_details"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/studytimes_details"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:id="@+id/addItems"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/addItems"
+        android:layout_alignBaseline="@+id/studytimes"
+        android:layout_alignBottom="@+id/studytimes"
+        android:gravity="center"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:id="@+id/continuestudy_details"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignTop="@+id/addItems_details"
+        android:layout_marginEnd="25dp"
+         />
+
+    <TextView
+        android:id="@+id/continuestudy"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/continuestudy"
+        android:layout_alignBaseline="@+id/addItems"
+        android:gravity="center"
+        android:layout_alignBottom="@+id/addItems"
+        android:layout_toStartOf="@+id/continuestudy_details" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:background="@color/white"
+        android:id="@+id/relativeLayout2"
+        android:layout_marginTop="3dp"
+        android:layout_below="@+id/relativeLayout"
+        android:layout_alignParentStart="true">
+
+
+    </RelativeLayout>
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignTop="@+id/relativeLayout2"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="14dp"
+        app:srcCompat="@android:drawable/alert_dark_frame" />
+
+    <TextView
+        android:id="@+id/textView8"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="17dp"
+        android:text="TextView"
+        android:layout_alignTop="@+id/imageView"
+        android:layout_toEndOf="@+id/studytimes" />
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/imageView"
+        android:layout_below="@+id/imageView"
+        android:layout_marginTop="11dp"
+        app:srcCompat="@android:drawable/alert_dark_frame" />
+
+    <TextView
+        android:id="@+id/textView9"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        android:layout_alignTop="@+id/imageView2"
+        android:layout_alignStart="@+id/textView8"
+        android:layout_marginTop="16dp" />
+
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/relativeLayout2"
+        android:layout_alignEnd="@+id/imageView2"
+        android:layout_marginBottom="18dp"
+        app:srcCompat="@android:drawable/alert_dark_frame" />
+
+    <TextView
+        android:id="@+id/textView10"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        android:layout_alignBottom="@+id/imageView3"
+        android:layout_alignStart="@+id/textView9"
+        android:layout_marginBottom="15dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:orientation="horizontal"
+        android:layout_below="@+id/imageView"
+        android:background="@color/black"
+        android:layout_alignStart="@+id/textView8"></LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/black"
+        android:layout_below="@+id/imageView2"
+        android:orientation="horizontal"
+        android:layout_alignParentEnd="true"
+        android:layout_alignStart="@+id/textView9"></LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/black"
+        android:layout_alignBottom="@+id/imageView3"
+        android:orientation="horizontal"
+        android:layout_alignParentEnd="true"
+        android:layout_alignStart="@+id/textView10"></LinearLayout>
+
+    <ImageView
+        android:id="@+id/imageView4"
+        android:layout_width="90dp"
+        android:layout_height="90dp"
+        android:layout_alignBottom="@+id/usernews_username"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="15dp"
+        app:srcCompat="@android:drawable/alert_dark_frame" />
+
+</RelativeLayout>
