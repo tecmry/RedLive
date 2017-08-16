@@ -6,4 +6,13 @@
     <string name="studytime">学习时间</string>
     <string name="addItems">圈子足迹</string>
     <string name="continuestudy">持续学习</string>
+    <string name="enterTitle">登录RedLive</string>
+    <string name="gotoregister">去注册 ></string>
+    <string name="entercountnamehint">邮箱/用户名</string>
+    <string name="enterpasswordshint">密码</string>
+    <string name="enter">登录</string>
+    <string name="welcome">欢迎来到RedLive</string>
+    <string name="register">注册</string>
+    <string name="havecount">已有账号直接登录</string>
+    <string name="outenter">退出登录</string>
 </resources>

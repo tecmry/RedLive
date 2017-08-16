@@ -24,6 +24,7 @@
         android:layout_height="wrap_content"
         app:tabIndicatorHeight= "0dp"
         android:layout_gravity="bottom"
+        android:background="@color/white"
         app:layout_behavior="fight.tecmry.com.redlive.Util.BottomBehavior"
         >
         <android.support.design.widget.TabItem

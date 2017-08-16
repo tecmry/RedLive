@@ -27,7 +27,7 @@
 
 <RelativeLayout
     android:layout_width="match_parent"
-    android:layout_height="70dp"
+    android:layout_height="60dp"
     android:layout_below="@+id/usernews_toolbar"
     android:layout_marginTop="4dp"
     android:background="@color/white"
@@ -94,7 +94,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="270dp"
         android:background="@color/white"
         android:id="@+id/relativeLayout2"
         android:layout_marginTop="3dp"
@@ -151,10 +151,10 @@
         app:srcCompat="@android:drawable/alert_dark_frame" />
 
     <TextView
-        android:id="@+id/textView10"
+        android:id="@+id/out_enter"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="TextView"
+        android:text="@string/outenter"
         android:layout_alignBottom="@+id/imageView3"
         android:layout_alignStart="@+id/textView9"
         android:layout_marginBottom="15dp" />
@@ -165,7 +165,7 @@
         android:orientation="horizontal"
         android:layout_below="@+id/imageView"
         android:background="@color/black"
-        android:layout_alignStart="@+id/textView8"></LinearLayout>
+        android:layout_alignStart="@+id/textView8"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -174,7 +174,8 @@
         android:layout_below="@+id/imageView2"
         android:orientation="horizontal"
         android:layout_alignParentEnd="true"
-        android:layout_alignStart="@+id/textView9"></LinearLayout>
+        android:layout_alignStart="@+id/textView9"
+        android:id="@+id/linearLayout" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -183,15 +184,43 @@
         android:layout_alignBottom="@+id/imageView3"
         android:orientation="horizontal"
         android:layout_alignParentEnd="true"
-        android:layout_alignStart="@+id/textView10"></LinearLayout>
+        android:layout_alignStart="@+id/textView10"/>
 
     <ImageView
-        android:id="@+id/imageView4"
+        android:id="@+id/usernews_userimage"
         android:layout_width="90dp"
         android:layout_height="90dp"
         android:layout_alignBottom="@+id/usernews_username"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="15dp"
         app:srcCompat="@android:drawable/alert_dark_frame" />
+
+    <ImageView
+        android:id="@+id/imageView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@android:drawable/alert_dark_frame"
+        android:layout_above="@+id/imageView3"
+        android:layout_alignStart="@+id/imageView3"
+        android:layout_marginBottom="10dp" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/imageView4"
+        android:layout_alignStart="@+id/linearLayout"
+        android:layout_marginBottom="13dp"
+        android:text="TextView" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignStart="@+id/textView2"
+        android:layout_below="@+id/textView2"
+        android:orientation="vertical"
+        android:background="@color/black"
+        />
 
 </RelativeLayout>

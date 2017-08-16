@@ -20,7 +20,7 @@ private TabLayout tableLayout;
         setContentView(R.layout.activity_main);
         tableLayout = (TabLayout)findViewById(R.id.tab_layout2);
 
-        
+
         AVObject testObject = new AVObject("TestObject");
 
 

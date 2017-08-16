@@ -21,6 +21,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".Activity.UserEditor"></activity>
+        <activity android:name=".Activity.Enter"></activity>
+        <activity android:name=".Activity.Register"></activity>
         <service android:name="com.avos.avoscloud.PushService"/>
         <receiver android:name="com.avos.avoscloud.AVBroadcastReceiver">
             <intent-filter>

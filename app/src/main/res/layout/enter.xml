@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:id="@+id/login_form"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <ProgressBar
+        android:id="@+id/login_progress"
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:visibility="gone"/>
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="170dp"
+    android:background="@color/toolbarcolor"
+    >
+
+    <ImageButton
+        android:id="@+id/enter_cancel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="18dp"
+        android:background="@drawable/no"
+      />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="12dp"
+        android:text="@string/enterTitle"
+        android:textColor="@color/white"
+        android:textSize="35sp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignStart="@+id/renter_cancel" />
+</RelativeLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        >
+
+        <TextView
+            android:id="@+id/enter_gotoregister"
+            android:layout_width="70dp"
+            android:layout_height="25dp"
+            android:layout_marginLeft="280dp"
+            android:layout_marginTop="15dp"
+            android:text="@string/gotoregister"
+            android:textColor="@color/toolbarcolor" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_marginTop="15dp"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:orientation="vertical"
+        >
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="10dp"
+            android:id="@+id/enter_countname"
+            android:hint="@string/entercountnamehint"
+            android:maxLength="20"
+            />
+
+    <EditText
+        android:id="@+id/enter_passwords"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="15dp"
+        android:hint="@string/enterpasswordshint"
+        android:inputType="textPassword"
+        android:maxLength="20" />
+
+    </LinearLayout>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/entertextview"
+        android:layout_marginTop="40dp"
+        android:textColor="@color/white"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:text="@string/enter"
+        android:id="@+id/enter_Tv"
+        >
+
+    </TextView>
+</LinearLayout>
