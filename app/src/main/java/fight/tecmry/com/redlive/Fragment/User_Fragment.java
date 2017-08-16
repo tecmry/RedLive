@@ -14,7 +14,7 @@ import fight.tecmry.com.redlive.R;
  * Created by Tecmry on 2017/8/15.
  */
 
-public class user_fragment extends Fragment{
+public class User_Fragment extends Fragment{
     private final static String TAG = "user_fragment";
 
     @Nullable

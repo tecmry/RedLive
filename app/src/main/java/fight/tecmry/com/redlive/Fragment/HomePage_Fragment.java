@@ -14,13 +14,12 @@ import fight.tecmry.com.redlive.R;
  * Created by Tecmry on 2017/8/15.
  */
 
-public class state_fragment extends Fragment {
-
-    private final static  String TAG = "state_fragment";
+public class HomePage_Fragment extends Fragment {
+    private final static  String TAG = "homepage_fragment";
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.second_place,container,false);
+        View view = inflater.inflate(R.layout.first_place,container,false);
         return view;
     }
 
