@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -17,34 +18,48 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.avos.avoscloud.AVException;
+import com.avos.avoscloud.AVUser;
+import com.avos.avoscloud.SaveCallback;
+
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.IOException;
 
 import fight.tecmry.com.redlive.R;
 
-/**
- * Created by Tecmry on 2017/8/16.
- */
+
 
 public class UserEditor extends AppCompatActivity implements View.OnClickListener {
     private Toolbar toolbar;
+
     private ImageView user_image;
 
+    private EditText Et_email;
+    private EditText Et_Work;
+    private EditText Et_motto;
+
+    private CheckBox Cb_man;
+    private CheckBox Cb_woman;
+
+    private String TAG = "UserEditor";
+    private String UserName = AVUser.getCurrentUser().getUsername();
+    private static final String filename = "head.jpg";
+    private static String path_userimage = "/sdcard/UserImage/";
+    private static String image_filename;
 
     private static final int take_photo = 1;
     private static final int choose_photo = 2;
     private static final int core_photo = 3;
-    private static final String filename = "head.jpg";
-    private static String path_userimage = "/sdcard/UserImage/";
-    private static String image_filename;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -56,10 +71,31 @@ public class UserEditor extends AppCompatActivity implements View.OnClickListene
 
     private void init() {
         toolbar = (Toolbar) findViewById(R.id.usereditor_toolbar);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
         setSupportActionBar(toolbar);
 
         user_image = (ImageView)findViewById(R.id.user_image);
         user_image.setOnClickListener(this);
+        Bitmap  bitmap = BitmapFactory.decodeFile(path_userimage+UserName + "/head.jpg");
+        if (bitmap!=null)
+        {
+            user_image.setImageBitmap(bitmap);
+        }
+
+        Et_email = (EditText)findViewById(R.id.Et_email);
+        Et_motto = (EditText)findViewById(R.id.Et_motto);
+        Et_Work = (EditText)findViewById(R.id.Et_work);
+
+        boolean isChecked = false;
+        Cb_man = (CheckBox)findViewById(R.id.Cb_man);
+        Cb_man.setOnClickListener(this);
+        Cb_woman = (CheckBox)findViewById(R.id.Cb_woman);
+        Cb_woman.setOnClickListener(this);
     }
 
     @Override
@@ -73,8 +109,9 @@ public class UserEditor extends AppCompatActivity implements View.OnClickListene
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_yes:
+                change();
+                finish();
                 break;
-
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -89,11 +126,79 @@ public class UserEditor extends AppCompatActivity implements View.OnClickListene
             case R.id.user_image:
                 showDialog();
                 break;
+            case R.id.Cb_man:
+                if (!Cb_woman.isChecked()&&!Cb_man.isChecked())
+                {
+                    Cb_man.setChecked(true);
+                }
+                if (Cb_woman.isChecked())
+                {
+                    Cb_man.setChecked(true);
+                    Cb_woman.setChecked(false);
+                }
+                break;
+            case R.id.Cb_woman:
+                if (!Cb_woman.isChecked()&&!Cb_man.isChecked())
+                {
+                    Cb_woman.setChecked(true);
+                }
+                if (Cb_man.isChecked())
+                {
+                    Cb_woman.setChecked(true);
+                    Cb_man.setChecked(false);
+                }
+
+                break;
         }
     }
 
 
+    /**
+    * 实现进行更换用户信息
+    * */
+    private void change()
+    {
+            final String email = Et_email.getText().toString();
+            final String work = Et_Work.getText().toString();
+            final String mooto = Et_motto.getText().toString();
+            boolean isMan = Cb_man.isChecked();
+            boolean isWomen = Cb_woman.isChecked();
+            String sex = null;
+            if (isMan||isWomen)
+            {
+                if (isMan)
+                {
+                    sex = "男";
+                }else if (isWomen)
+                {
+                    sex = "女";
+                }
+            }
+            final String sexx = sex;
+            //上传信息 不进行空判断
+        new Thread(new Runnable() {
+    @Override
+    public void run() {
+        AVUser.getCurrentUser().saveInBackground(new SaveCallback() {
+            @Override
+            public void done(AVException e) {
+                if (e == null) {
+                    AVUser.getCurrentUser().setEmail(email);
+                    AVUser.getCurrentUser().put("work",work);
+                    AVUser.getCurrentUser().put("motto",mooto);
+                    AVUser.getCurrentUser().put("sex",sexx);
+                    AVUser.getCurrentUser().saveInBackground();
+                }else
+                {
+                    Toast.makeText(UserEditor.this,e.toString(),Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+}).start();
 
+        Toast.makeText(UserEditor.this,"修改成功",Toast.LENGTH_SHORT).show();
+    }
 
     /**
      * 实现更换头像
@@ -235,27 +340,26 @@ public class UserEditor extends AppCompatActivity implements View.OnClickListene
         { // 检测sd是否可用
             return;
         }
-        FileOutputStream b = null;
+            File file = new File(path_userimage);
+        if (!file.exists()&&!file.isDirectory()) {
+            //检查文件是否存在
+            Log.d(TAG,"File not exists");
+            file.mkdirs();
+        }else {
+            Log.d(TAG,"File not exists");
+        }
+        //给每个用户分配一个文件进行存储
+            image_filename = path_userimage+UserName + "/head.jpg";
 
-            File file_right = new File(path_userimage);
-            file_right.mkdirs();
-            image_filename = path_userimage + "head.jpg";
-
+          FileOutputStream b = null ;
         try
         {
             b = new FileOutputStream(image_filename);
             bitmap.compress(Bitmap.CompressFormat.JPEG, 100, b);// 把数据写入文件
-        } catch (FileNotFoundException e) {
+            b.flush();
+            b.close();
+        }  catch (Exception e) {
             e.printStackTrace();
-        } finally {
-            try {
-                // 关闭流
-
-                b.flush();
-                b.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
         }
     }
 

@@ -43,10 +43,15 @@
             android:gravity="center"
             android:textSize="15sp"
             />
+
         <EditText
+            android:id="@+id/Et_email"
             android:layout_width="170dp"
             android:layout_height="match_parent"
-            android:layout_weight="0.67" />
+            android:layout_weight="0.67"
+            android:maxLines="1"
+            android:inputType="textEmailAddress"
+            />
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
@@ -63,17 +68,27 @@
             android:gravity="center"
             android:textSize="15sp"
             />
-        <CheckBox
-            android:layout_marginLeft="30dp"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-
+        <TextView
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:text="@string/man"
+            android:gravity="center"
             />
         <CheckBox
-            android:layout_marginLeft="10dp"
+            android:id="@+id/Cb_man"
             android:layout_width="30dp"
             android:layout_height="30dp"
-
+            />
+        <TextView
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:text="@string/woman"
+            android:gravity="center"
+            />
+        <CheckBox
+            android:id="@+id/Cb_woman"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             />
     </LinearLayout>
     <LinearLayout
@@ -91,10 +106,14 @@
             android:text="@string/work"
             android:textSize="15sp"
             />
+
         <EditText
+            android:id="@+id/Et_work"
             android:layout_width="170dp"
             android:layout_height="match_parent"
-            android:layout_weight="0.67" />
+            android:layout_weight="0.67"
+            android:maxLines="1"
+            />
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
@@ -111,9 +130,14 @@
             android:gravity="center"
             android:textSize="15sp"
             />
+
         <EditText
+            android:id="@+id/Et_motto"
             android:layout_width="170dp"
             android:layout_height="match_parent"
-            android:layout_weight="0.67" />
+            android:layout_weight="0.67"
+            android:maxLines="2"
+
+            />
     </LinearLayout>
 </LinearLayout>

@@ -20,4 +20,6 @@
     <string name="email">邮箱</string>
     <string name="motto">签名</string>
     <string name="work">所处职业</string>
+    <string name="woman">女</string>
+    <string name="man">男</string>
 </resources>
