@@ -22,4 +22,14 @@
     <string name="work">所处职业</string>
     <string name="woman">女</string>
     <string name="man">男</string>
+    <string name="hello">你也好呀</string>
+    <string name="onehello">你好</string>
+    <string name="time">时间</string>
+    <string name="time_too_short">录音时间过短</string>
+    <string name="rcbtn_normal">按住 录音</string>
+    <string name="rcbtn_recoding">松开 结束</string>
+    <string name="rcbtn_cancel">手指上滑，取消录音</string>
+    <string name="setLiveTitle">欢迎创建你的Live</string>
+    <string name="livename">Live名称</string>
+    <string name="setLive_topeople">Live面向人群</string>
 </resources>

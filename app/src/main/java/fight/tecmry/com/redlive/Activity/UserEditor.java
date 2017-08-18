@@ -74,10 +74,11 @@ public class UserEditor extends AppCompatActivity implements View.OnClickListene
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Toast.makeText(getApplicationContext(),"AAA",Toast.LENGTH_SHORT).show();
                 finish();
             }
         });
-        setSupportActionBar(toolbar);
+       // setSupportActionBar(toolbar);
 
         user_image = (ImageView)findViewById(R.id.user_image);
         user_image.setOnClickListener(this);
