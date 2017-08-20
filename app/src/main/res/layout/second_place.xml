@@ -28,6 +28,7 @@
             android:textColor="@color/white"
             android:textSize="17sp"
             android:gravity="center"
+            android:id="@+id/creative_Live"
             />
     </android.support.v7.widget.Toolbar>
     <android.support.v7.widget.RecyclerView

@@ -58,16 +58,10 @@ public class User_Fragment extends Fragment implements View.OnClickListener{
         OutEnter.setOnClickListener(this);
 
         avUser = AVUser.getCurrentUser();
-        if (avUser==null)
-        {
-                isEnter = false;
-        }else if (avUser!=null)
-            {
-                isEnter = true;
-             //捕获下空指针异常
-                username.setText(avUser.getUsername());
+      if (Constant.User.isLogin()) {
+          username.setText(avUser.getUsername());
+      }
 
-            }
     }
     private void loadImage(final ImageView imageView)
     {
@@ -95,7 +89,7 @@ public class User_Fragment extends Fragment implements View.OnClickListener{
         switch (view.getId())
         {
             case R.id.usernews_userimage:
-                if (isEnter){
+                if (Constant.User.isLogin()){
                     Intent intent = new Intent(getContext(), UserEditor.class);
                     startActivity(intent);
                 }else {

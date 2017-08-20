@@ -23,5 +23,13 @@ public class Constant {
     }
     public static class User{
         public static final AVUser avuser = AVUser.getCurrentUser();
+
+        /**
+         * 判断是否进行登录
+         * */
+        public static boolean isLogin()
+        {
+            return AVUser.getCurrentUser() != null;
+        }
     }
 }

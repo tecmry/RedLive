@@ -60,6 +60,8 @@ public class UserEditor extends AppCompatActivity implements View.OnClickListene
     private static final int choose_photo = 2;
     private static final int core_photo = 3;
 
+
+    private int checkHeadTimes = 0;
     private Bitmap mBitmap;
 
     @Override
@@ -75,8 +77,9 @@ public class UserEditor extends AppCompatActivity implements View.OnClickListene
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Toast.makeText(getApplicationContext(),"取消修改",Toast.LENGTH_SHORT).show();
                 finish();
-            }
+        }
         });
         toolbar.setTitle("");
        setSupportActionBar(toolbar);
@@ -84,21 +87,29 @@ public class UserEditor extends AppCompatActivity implements View.OnClickListene
         user_image = (ImageView)findViewById(R.id.user_image);
         user_image.setOnClickListener(this);
         Bitmap  bitmap = BitmapFactory.decodeFile(Constant.FilePath.ROOT_PATH+ Constant.FilePath.USER_NAME + "/head.jpg");
-        System.out.println("bitmap"+bitmap==null);
         if (bitmap!=null)
         {
             user_image.setImageBitmap(bitmap);
         }
 
         Et_email = (EditText)findViewById(R.id.Et_email);
+        Et_email.setText(AVUser.getCurrentUser().getEmail());
         Et_motto = (EditText)findViewById(R.id.Et_motto);
+        Et_motto.setText((CharSequence) AVUser.getCurrentUser().get("motto"));
         Et_Work = (EditText)findViewById(R.id.Et_work);
+        Et_Work.setText((CharSequence) AVUser.getCurrentUser().get("work"));
 
         boolean isChecked = false;
         Cb_man = (CheckBox)findViewById(R.id.Cb_man);
         Cb_man.setOnClickListener(this);
         Cb_woman = (CheckBox)findViewById(R.id.Cb_woman);
         Cb_woman.setOnClickListener(this);
+        if (AVUser.getCurrentUser().get("sex")=="男")
+        {
+            Cb_man.setChecked(true);
+        }else if (AVUser.getCurrentUser().get("sex")=="女"){
+            Cb_woman.setChecked(true);
+        }
     }
 
     @Override
