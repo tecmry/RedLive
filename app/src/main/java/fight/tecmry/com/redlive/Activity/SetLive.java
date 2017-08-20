@@ -1,5 +1,8 @@
 package fight.tecmry.com.redlive.Activity;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -8,6 +11,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.avos.avoscloud.AVException;
@@ -27,6 +32,9 @@ public class SetLive extends AppCompatActivity implements View.OnClickListener
      private EditText Et_setLivetalk;
      private EditText Et_setFacepeople;
 
+    private LinearLayout LoginFormView;
+    private ProgressBar mProgressBar;
+
     //判断是否满足上传的条件
     private boolean isNext = true;
     private static final String AvDependent = "dependent";
@@ -45,6 +53,9 @@ public class SetLive extends AppCompatActivity implements View.OnClickListener
         Et_setFacepeople.setOnClickListener(this);
         Et_setLivetalk.setOnClickListener(this);
         Et_setLivename.setOnClickListener(this);
+
+        LoginFormView = (LinearLayout)findViewById(R.id.setLive_main);
+        mProgressBar = (ProgressBar)findViewById(R.id.login_progress);
     }
 
     @Override
@@ -110,6 +121,7 @@ public class SetLive extends AppCompatActivity implements View.OnClickListener
         }
         if (isNext)
         {
+            showProgress(true);
             new Thread(new Runnable() {
                 @Override
                 public void run() {
@@ -118,6 +130,7 @@ public class SetLive extends AppCompatActivity implements View.OnClickListener
                     LiveItem.put("name",Livename);
                     LiveItem.put("talk",LiveTalk);
                     LiveItem.put("facepeople",FacePeople);
+                    LiveItem.put("Author",avUser.getUsername());
                     LiveItem.put(AvDependent,avUser);
                     LiveItem.saveInBackground(new SaveCallback() {
                         @Override
@@ -125,6 +138,7 @@ public class SetLive extends AppCompatActivity implements View.OnClickListener
                             if (e==null)
                             {
                                 Toast.makeText(getApplicationContext(),"你的Live信息已经上传成功",Toast.LENGTH_SHORT).show();
+
                             }else {
                                 Log.d("SetLive",e.toString());
                             }
@@ -135,6 +149,8 @@ public class SetLive extends AppCompatActivity implements View.OnClickListener
         }
     }
 
+
+    //判断是否登录
     private void CheckHaveLogin()
     {
         if (AVUser.getCurrentUser()==null)
@@ -142,5 +158,31 @@ public class SetLive extends AppCompatActivity implements View.OnClickListener
             isNext = false;
         }
 
+    }
+    private void showProgress(final boolean show) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
+            int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
+
+            LoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
+            LoginFormView.animate().setDuration(shortAnimTime).alpha(
+                    show ? 0 : 1).setListener(new AnimatorListenerAdapter() {
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    LoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
+                }
+            });
+
+            mProgressBar.setVisibility(show ? View.VISIBLE : View.GONE);
+            mProgressBar.animate().setDuration(shortAnimTime).alpha(
+                    show ? 1 : 0).setListener(new AnimatorListenerAdapter() {
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    mProgressBar.setVisibility(show ? View.VISIBLE : View.GONE);
+                }
+            });
+        } else {
+            mProgressBar.setVisibility(show ? View.VISIBLE : View.GONE);
+            LoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
+        }
     }
 }

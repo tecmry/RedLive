@@ -1,6 +1,8 @@
 package fight.tecmry.com.redlive.Fragment;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -12,11 +14,18 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.avos.avoscloud.AVException;
+import com.avos.avoscloud.AVFile;
 import com.avos.avoscloud.AVUser;
+import com.avos.avoscloud.GetDataCallback;
+import com.bumptech.glide.Glide;
+
+import java.util.HashMap;
 
 import fight.tecmry.com.redlive.Activity.Enter;
 import fight.tecmry.com.redlive.Activity.UserEditor;
 import fight.tecmry.com.redlive.R;
+import fight.tecmry.com.redlive.Util.Constant;
 
 
 public class User_Fragment extends Fragment implements View.OnClickListener{
@@ -42,7 +51,7 @@ public class User_Fragment extends Fragment implements View.OnClickListener{
     {
         userimage = (ImageView)view.findViewById(R.id.usernews_userimage);
         userimage.setOnClickListener(this);
-
+        loadImage(userimage);
         username = (TextView)view.findViewById(R.id.usernews_username);
 
         OutEnter = (TextView)view.findViewById(R.id.out_enter);
@@ -59,6 +68,27 @@ public class User_Fragment extends Fragment implements View.OnClickListener{
                 username.setText(avUser.getUsername());
 
             }
+    }
+    private void loadImage(final ImageView imageView)
+    {
+        Bitmap bitmap = BitmapFactory.decodeFile(Constant.FilePath.ROOT_PATH +Constant.FilePath.USER_NAME + "/head.jpg");
+        if (bitmap!=null)
+        {
+            imageView.setImageBitmap(bitmap);
+        }else {new Thread(new Runnable() {
+            @Override
+            public void run() {
+                AVFile avFile = new AVFile(Constant.User.avuser.getUsername() + ".jpg",
+                        (String) Constant.User.avuser.get("headImage"),new HashMap<String,Object>());
+            avFile.getDataInBackground(new GetDataCallback() {
+                @Override
+                public void done(byte[] bytes, AVException e) {
+                    Glide.with(getContext()).load(bytes).into(imageView);
+                }
+            });
+            }
+        }).start();
+        }
     }
     @Override
     public void onClick(View view) {
@@ -84,6 +114,7 @@ public class User_Fragment extends Fragment implements View.OnClickListener{
                }
                break;
         }
+
     }
 
 
@@ -91,6 +122,7 @@ public class User_Fragment extends Fragment implements View.OnClickListener{
     @Override
     public void onResume() {
         super.onResume();
+        loadImage(userimage);
         Log.d(TAG,"onResume");
     }
 

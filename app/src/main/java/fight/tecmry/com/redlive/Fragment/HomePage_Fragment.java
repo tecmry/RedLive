@@ -38,6 +38,7 @@ public class HomePage_Fragment extends Fragment {
         return view;
     }
 
+
     @Override
     public void onResume() {
         super.onResume();

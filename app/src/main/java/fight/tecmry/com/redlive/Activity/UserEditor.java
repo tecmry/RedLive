@@ -28,14 +28,16 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.avos.avoscloud.AVException;
+import com.avos.avoscloud.AVFile;
 import com.avos.avoscloud.AVUser;
 import com.avos.avoscloud.SaveCallback;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 
 import fight.tecmry.com.redlive.R;
-
+import fight.tecmry.com.redlive.Util.Constant;
 
 
 public class UserEditor extends AppCompatActivity implements View.OnClickListener {
@@ -51,15 +53,14 @@ public class UserEditor extends AppCompatActivity implements View.OnClickListene
     private CheckBox Cb_woman;
 
     private String TAG = "UserEditor";
-    private String UserName = AVUser.getCurrentUser().getUsername();
     private static final String filename = "head.jpg";
-    private static String path_userimage = "/sdcard/UserImage/";
     private static String image_filename;
 
     private static final int take_photo = 1;
     private static final int choose_photo = 2;
     private static final int core_photo = 3;
 
+    private Bitmap mBitmap;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -74,15 +75,16 @@ public class UserEditor extends AppCompatActivity implements View.OnClickListene
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getApplicationContext(),"AAA",Toast.LENGTH_SHORT).show();
                 finish();
             }
         });
-       // setSupportActionBar(toolbar);
+        toolbar.setTitle("");
+       setSupportActionBar(toolbar);
 
         user_image = (ImageView)findViewById(R.id.user_image);
         user_image.setOnClickListener(this);
-        Bitmap  bitmap = BitmapFactory.decodeFile(path_userimage+UserName + "/head.jpg");
+        Bitmap  bitmap = BitmapFactory.decodeFile(Constant.FilePath.ROOT_PATH+ Constant.FilePath.USER_NAME + "/head.jpg");
+        System.out.println("bitmap"+bitmap==null);
         if (bitmap!=null)
         {
             user_image.setImageBitmap(bitmap);
@@ -100,10 +102,10 @@ public class UserEditor extends AppCompatActivity implements View.OnClickListene
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
+    public boolean onCreateOptionsMenu(Menu menu)
+    {
         getMenuInflater().inflate(R.menu.usertoolbarbutton, menu);
         return true;
-
     }
 
     @Override
@@ -111,7 +113,6 @@ public class UserEditor extends AppCompatActivity implements View.OnClickListene
         switch (item.getItemId()) {
             case R.id.menu_yes:
                 change();
-                finish();
                 break;
             default:
                 return super.onOptionsItemSelected(item);
@@ -197,7 +198,31 @@ public class UserEditor extends AppCompatActivity implements View.OnClickListene
         });
     }
 }).start();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    final AVFile avFile = AVFile.withAbsoluteLocalPath(Constant.FilePath.USER_NAME+".jpg",image_filename);
+                    avFile.saveInBackground(new SaveCallback() {
+                        @Override
+                        public void done(AVException e) {
+                            if (e!=null&&mBitmap!=null)
+                            {
+                                Toast.makeText(getApplicationContext(),"上传服务器出现问题本地已保存",Toast.LENGTH_SHORT).show();
+                                Log.d(TAG,e.toString());
+                            }else if (e==null)
+                            {
+                                Toast.makeText(getApplicationContext(),"成功保存",Toast.LENGTH_SHORT).show();
+                                Constant.User.avuser.put("headImage",avFile.getUrl());
+                            }
+                        }
+                    });
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                }
 
+            }
+        }).start();
         Toast.makeText(UserEditor.this,"修改成功",Toast.LENGTH_SHORT).show();
     }
 
@@ -276,6 +301,8 @@ public class UserEditor extends AppCompatActivity implements View.OnClickListene
 
             //在这里设置图片
             user_image.setImageBitmap(photo);
+
+
         }
     }
     @Override
@@ -335,24 +362,30 @@ public class UserEditor extends AppCompatActivity implements View.OnClickListene
             }
         }
     }
-    private void saveBitmap(Bitmap bitmap){
+    /**
+     * 需要改进
+     * */
+    private void saveBitmap(final Bitmap bitmap){
         String sdStatus = Environment.getExternalStorageState();
         if (!sdStatus.equals(Environment.MEDIA_MOUNTED))
         { // 检测sd是否可用
             return;
         }
-            File file = new File(path_userimage);
+        FileOutputStream b;
+            File file = new File(Constant.FilePath.ROOT_PATH+Constant.FilePath.USER_NAME);
+        file.mkdirs();
         if (!file.exists()&&!file.isDirectory()) {
             //检查文件是否存在
             Log.d(TAG,"File not exists");
             file.mkdirs();
         }else {
-            Log.d(TAG,"File not exists");
+            Log.d(TAG,"File  exists");
         }
         //给每个用户分配一个文件进行存储
-            image_filename = path_userimage+UserName + "/head.jpg";
+            image_filename = Constant.FilePath.ROOT_PATH +Constant.FilePath.USER_NAME + filename;
+        System.out.println("image_filename"+image_filename);
+        mBitmap = bitmap;
 
-          FileOutputStream b = null ;
         try
         {
             b = new FileOutputStream(image_filename);
@@ -360,6 +393,7 @@ public class UserEditor extends AppCompatActivity implements View.OnClickListene
             b.flush();
             b.close();
         }  catch (Exception e) {
+            Log.d("HHHH",e.toString());
             e.printStackTrace();
         }
     }

@@ -184,12 +184,12 @@
         android:layout_alignBottom="@+id/imageView3"
         android:orientation="horizontal"
         android:layout_alignParentEnd="true"
-        android:layout_alignStart="@+id/textView10"/>
+        />
 
     <ImageView
         android:id="@+id/usernews_userimage"
-        android:layout_width="90dp"
-        android:layout_height="90dp"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
         android:layout_alignBottom="@+id/usernews_username"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="15dp"

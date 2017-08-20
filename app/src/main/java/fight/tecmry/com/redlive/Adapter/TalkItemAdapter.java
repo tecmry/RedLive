@@ -9,6 +9,7 @@ import android.view.ViewGroup;
  */
 
 public class TalkItemAdapter extends RecyclerView.Adapter<TalkItemAdapter.ViewHolder> {
+
     @Override
     public TalkItemAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         return null;
