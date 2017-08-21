@@ -2,10 +2,12 @@ package fight.tecmry.com.redlive.Activity;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -19,8 +21,18 @@ import com.avos.avoscloud.AVException;
 import com.avos.avoscloud.AVObject;
 import com.avos.avoscloud.AVUser;
 import com.avos.avoscloud.SaveCallback;
+import com.avos.avoscloud.im.v2.AVIMConversation;
+import com.avos.avoscloud.im.v2.AVIMException;
+import com.avos.avoscloud.im.v2.callback.AVIMConversationCreatedCallback;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import cn.leancloud.chatkit.LCChatKit;
+import cn.leancloud.chatkit.activity.LCIMConversationActivity;
+import cn.leancloud.chatkit.utils.LCIMConstants;
 import fight.tecmry.com.redlive.R;
+import fight.tecmry.com.redlive.Util.Constant;
 
 /**
  * Created by Tecmry on 2017/8/18.
@@ -35,9 +47,12 @@ public class SetLive extends AppCompatActivity implements View.OnClickListener
     private LinearLayout LoginFormView;
     private ProgressBar mProgressBar;
 
+    private Toolbar mToolbar;
     //判断是否满足上传的条件
     private boolean isNext = true;
     private static final String AvDependent = "dependent";
+
+    private AVObject LiveItem;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,6 +71,10 @@ public class SetLive extends AppCompatActivity implements View.OnClickListener
 
         LoginFormView = (LinearLayout)findViewById(R.id.setLive_main);
         mProgressBar = (ProgressBar)findViewById(R.id.login_progress);
+
+        mToolbar = (Toolbar)findViewById(R.id.setLive_Toolbar);
+        mToolbar.setTitle("");
+        setSupportActionBar(mToolbar);
     }
 
     @Override
@@ -97,9 +116,6 @@ public class SetLive extends AppCompatActivity implements View.OnClickListener
         final String FacePeople = Et_setFacepeople.getText().toString();
 
         View FoucusView = null;
-
-
-
         /**
          * 下面做一些条件判断
          * */
@@ -125,7 +141,7 @@ public class SetLive extends AppCompatActivity implements View.OnClickListener
             new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    AVObject LiveItem = new AVObject("LiveItem");
+                     LiveItem = new AVObject("LiveItem");
                     AVUser avUser = AVUser.getCurrentUser();
                     LiveItem.put("name",Livename);
                     LiveItem.put("talk",LiveTalk);
@@ -138,7 +154,8 @@ public class SetLive extends AppCompatActivity implements View.OnClickListener
                             if (e==null)
                             {
                                 Toast.makeText(getApplicationContext(),"你的Live信息已经上传成功",Toast.LENGTH_SHORT).show();
-
+                                finish();
+                                setLive();
                             }else {
                                 Log.d("SetLive",e.toString());
                             }
@@ -149,6 +166,26 @@ public class SetLive extends AppCompatActivity implements View.OnClickListener
         }
     }
 
+    private void setLive()
+    {
+        List<String> idList = new ArrayList<>();
+        idList.add(Constant.User.avuser.getUsername());
+        LCChatKit.getInstance().getClient().createConversation(
+                idList,"广场", null, false, true, new AVIMConversationCreatedCallback() {
+                    @Override
+                    public void done(final AVIMConversation avimConversation, AVIMException e) {
+                        final Intent intent = new Intent(SetLive.this, LCIMConversationActivity.class);
+                        LiveItem.put("ConvresationId",avimConversation.getConversationId());
+                        LiveItem.saveInBackground(new SaveCallback() {
+                            @Override
+                            public void done(AVException e) {
+                                intent.putExtra(LCIMConstants.CONVERSATION_ID, avimConversation.getConversationId());
+                                startActivity(intent);
+                            }
+                        });
+                    }
+                });
+    }
 
     //判断是否登录
     private void CheckHaveLogin()

@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal" android:layout_width="match_parent"
-    android:layout_height="125dp">
+    android:layout_height="125dp"
+    android:id="@+id/parent"
+    android:focusableInTouchMode="false"
+    >
 
 
 
@@ -45,6 +48,7 @@
            android:progressTint="#FBC02D"
            android:stepSize="0.5"
            android:id="@+id/liveitem_ratingbar"
+           android:focusableInTouchMode="false"
            />
        <TextView
            android:layout_width="90dp"
@@ -86,7 +90,9 @@
                 android:id="@+id/like"
                 android:layout_width="20dp"
                 android:layout_height="15dp"
-                android:layout_marginLeft="10dp" />
+                android:layout_marginLeft="10dp"
+                android:focusableInTouchMode="false"
+                />
 
             <TextView
                 android:id="@+id/textView3"

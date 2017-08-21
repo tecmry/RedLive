@@ -51,7 +51,9 @@ public class User_Fragment extends Fragment implements View.OnClickListener{
     {
         userimage = (ImageView)view.findViewById(R.id.usernews_userimage);
         userimage.setOnClickListener(this);
-        loadImage(userimage);
+        if (Constant.User.isLogin()) {
+            loadImage(userimage);
+        }
         username = (TextView)view.findViewById(R.id.usernews_username);
 
         OutEnter = (TextView)view.findViewById(R.id.out_enter);
@@ -77,7 +79,7 @@ public class User_Fragment extends Fragment implements View.OnClickListener{
             avFile.getDataInBackground(new GetDataCallback() {
                 @Override
                 public void done(byte[] bytes, AVException e) {
-                    Glide.with(getContext()).load(bytes).into(imageView);
+                    Glide.with(getActivity().getApplicationContext()).load(bytes).into(imageView);
                 }
             });
             }
@@ -116,7 +118,9 @@ public class User_Fragment extends Fragment implements View.OnClickListener{
     @Override
     public void onResume() {
         super.onResume();
-        loadImage(userimage);
+        if (Constant.User.isLogin()) {
+            loadImage(userimage);
+        }
         Log.d(TAG,"onResume");
     }
 

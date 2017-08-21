@@ -19,7 +19,11 @@ import android.widget.Toast;
 import com.avos.avoscloud.AVException;
 import com.avos.avoscloud.AVUser;
 import com.avos.avoscloud.LogInCallback;
+import com.avos.avoscloud.im.v2.AVIMClient;
+import com.avos.avoscloud.im.v2.AVIMException;
+import com.avos.avoscloud.im.v2.callback.AVIMClientCallback;
 
+import cn.leancloud.chatkit.LCChatKit;
 import fight.tecmry.com.redlive.R;
 
 /**
@@ -92,9 +96,20 @@ public class Enter extends AppCompatActivity implements View.OnClickListener{
                     @Override
                     public void done(AVUser avUser, AVException e) {
                         if(e == null){
-                            Intent intent = new Intent(Enter.this,MainActivity.class);
-                            startActivity(intent);
-                            finish();
+                            LCChatKit.getInstance().open(username, new AVIMClientCallback() {
+                                @Override
+                                public void done(AVIMClient avimClient, AVIMException e) {
+                                    if (e==null)
+                                    {
+                                        Intent intent = new Intent(Enter.this,MainActivity.class);
+                                        startActivity(intent);
+                                        finish();
+                                    }else {
+                                        showProgress(false);
+                                        Toast.makeText(Enter.this,e.toString(),Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                            });
                         }else {
                             showProgress(false);
                             Toast.makeText(Enter.this,e.getMessage(),Toast.LENGTH_SHORT).show();

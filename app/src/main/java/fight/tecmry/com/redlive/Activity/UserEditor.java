@@ -60,7 +60,7 @@ public class UserEditor extends AppCompatActivity implements View.OnClickListene
     private static final int choose_photo = 2;
     private static final int core_photo = 3;
 
-
+    private int addFile = 0;
     private int checkHeadTimes = 0;
     private Bitmap mBitmap;
 
@@ -74,19 +74,20 @@ public class UserEditor extends AppCompatActivity implements View.OnClickListene
 
     private void init() {
         toolbar = (Toolbar) findViewById(R.id.usereditor_toolbar);
+        setSupportActionBar(toolbar);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getApplicationContext(),"取消修改",Toast.LENGTH_SHORT).show();
+                Toast.makeText(UserEditor.this,"取消修改",Toast.LENGTH_SHORT).show();
                 finish();
         }
         });
         toolbar.setTitle("");
-       setSupportActionBar(toolbar);
+
 
         user_image = (ImageView)findViewById(R.id.user_image);
         user_image.setOnClickListener(this);
-        Bitmap  bitmap = BitmapFactory.decodeFile(Constant.FilePath.ROOT_PATH+ Constant.FilePath.USER_NAME + "/head.jpg");
+        Bitmap  bitmap = BitmapFactory.decodeFile(Constant.FilePath.ROOT_PATH+ Constant.FilePath.USER_NAME+ "/head.jpg");
         if (bitmap!=null)
         {
             user_image.setImageBitmap(bitmap);
@@ -196,11 +197,12 @@ public class UserEditor extends AppCompatActivity implements View.OnClickListene
             @Override
             public void done(AVException e) {
                 if (e == null) {
-                    AVUser.getCurrentUser().setEmail(email);
-                    AVUser.getCurrentUser().put("work",work);
-                    AVUser.getCurrentUser().put("motto",mooto);
-                    AVUser.getCurrentUser().put("sex",sexx);
-                    AVUser.getCurrentUser().saveInBackground();
+                    Constant.User.avuser.setEmail(email);
+                    Constant.User.avuser.put("work",work);
+                    Constant.User.avuser.put("motto",mooto);
+                    System.out.println(sexx);
+                    Constant.User.avuser.put("sex",sexx);
+                    //Constant.User.avuser.saveInBackground();
                 }else
                 {
                     Toast.makeText(UserEditor.this,e.toString(),Toast.LENGTH_SHORT).show();
@@ -224,6 +226,7 @@ public class UserEditor extends AppCompatActivity implements View.OnClickListene
                             }else if (e==null)
                             {
                                 Toast.makeText(getApplicationContext(),"成功保存",Toast.LENGTH_SHORT).show();
+                                System.out.println("Url" + avFile.getUrl());
                                 Constant.User.avuser.put("headImage",avFile.getUrl());
                             }
                         }

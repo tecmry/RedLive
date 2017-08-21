@@ -36,6 +36,9 @@
         <activity android:name=".Activity.Enter"></activity>
         <activity android:name=".Activity.Register"></activity>
         <activity android:name=".Activity.LiveNow"></activity>
+        <activity android:name=".Activity.SetLive"></activity>
+
+        <activity android:name=".Activity.LiveInfo"></activity>
         <service android:name="com.avos.avoscloud.PushService"/>
         <receiver android:name="com.avos.avoscloud.AVBroadcastReceiver">
             <intent-filter>

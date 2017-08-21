@@ -20,6 +20,7 @@ public class Constant {
         public static final String HEAD_DIR = "userheader/";
         public static final String HEAD_PATH = ROOT_PATH + RECORD_DIR;
         public static final String USER_NAME = AVUser.getCurrentUser().getUsername();
+
     }
     public static class User{
         public static final AVUser avuser = AVUser.getCurrentUser();

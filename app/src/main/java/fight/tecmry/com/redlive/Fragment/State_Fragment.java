@@ -2,6 +2,8 @@ package fight.tecmry.com.redlive.Fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -11,6 +13,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -19,11 +22,13 @@ import com.avos.avoscloud.AVException;
 import com.avos.avoscloud.AVObject;
 import com.avos.avoscloud.AVQuery;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 import fight.tecmry.com.redlive.Activity.Enter;
-import fight.tecmry.com.redlive.Activity.LiveNow;
+import fight.tecmry.com.redlive.Activity.LiveInfo;
+import fight.tecmry.com.redlive.Activity.SetLive;
 import fight.tecmry.com.redlive.Adapter.ShowItemAdapter;
 import fight.tecmry.com.redlive.R;
 import fight.tecmry.com.redlive.Util.Constant;
@@ -40,11 +45,14 @@ public class State_Fragment extends Fragment implements View.OnClickListener{
     private Toolbar mToolbar;
     private TextView creativeLive;
     private ShowItemAdapter itemAdapter;
-    private List<AVObject> list = new ArrayList<AVObject>();
+    private List<AVObject> itemlist = new ArrayList<AVObject>();
+    private View view;
+
+    private Handler handler;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.second_place,container,false);
+         view = inflater.inflate(R.layout.second_place,container,false);
         findList();
         init(view);
         return view;
@@ -53,13 +61,41 @@ public class State_Fragment extends Fragment implements View.OnClickListener{
     private void init(View view)
     {
         mRecyclerView = (RecyclerView)view.findViewById(R.id.Rv);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
-        //对List进行非空判断
-        if (list.size()!=0) {
-            itemAdapter = new ShowItemAdapter(list,getContext());
-            mRecyclerView.setAdapter(itemAdapter);
-            mRecyclerView.setLayoutManager(layoutManager);
-        }
+        final LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+
+
+          handler = new Handler(){
+              @Override
+              public void handleMessage(Message msg) {
+                  super.handleMessage(msg);
+                  ArrayList list = msg.getData().getParcelableArrayList("ItemLists");
+                    itemlist =(List<AVObject>)list;
+                  if (itemlist.size()!=0) {
+                      itemAdapter = new ShowItemAdapter(itemlist, getContext());
+                      mRecyclerView.setAdapter(itemAdapter);
+                      mRecyclerView.setLayoutManager(layoutManager);
+                     itemAdapter.setItemClickListner(new ShowItemAdapter.OnItemClickListner() {
+                         @Override
+                         public void OnItemClickListner(View view, final int position) {
+                             LinearLayout linearLayout = (LinearLayout)view.findViewById(R.id.parent);
+                             final TextView author = (TextView)view.findViewById(R.id.liveitem_author);
+                             final TextView Title = (TextView)view.findViewById(R.id.liveitem_title);
+                             author.setOnClickListener(new View.OnClickListener() {
+                                 @Override
+                                 public void onClick(View v) {
+                                     Log.d("Adapter","You Click this");
+                                     Intent intent = new Intent(getContext(), LiveInfo.class);
+                                     intent.putExtra("Title",Title.getText());
+                                     intent.putExtra("ConversationId", (String) itemlist.get(position).get("ConvresationId"));
+                                     intent.putExtra("Author",author.getText());
+                                     startActivity(intent);
+                                 }
+                             });
+                         }
+                     });
+                  }
+              }
+          };
 
         mProgressBar = (ProgressBar)view.findViewById(R.id.second_progress);
 
@@ -73,8 +109,14 @@ public class State_Fragment extends Fragment implements View.OnClickListener{
           @Override
           public void run() {
               try {
+                  Bundle bundle = new Bundle();
                   AVQuery<AVObject> query = new AVQuery<AVObject>("LiveItem");
-                  list = query.find();
+                  itemlist = query.find();
+                  bundle.putSerializable("ItemLists",(Serializable)itemlist);
+                  Message message = new Message();
+                  message.setData(bundle);
+                  handler.sendMessage(message);
+                  System.out.println(itemlist.size());
               } catch (AVException e) {
                   e.printStackTrace();
               }
@@ -88,7 +130,7 @@ public class State_Fragment extends Fragment implements View.OnClickListener{
             case R.id.creative_Live:
                 if (Constant.User.isLogin())
                 {
-                    startActivity(new Intent(getContext(), LiveNow.class));
+                    startActivity(new Intent(getContext(), SetLive.class));
                 }else {
                     Toast.makeText(getContext(),"未登录用户请先登录",Toast.LENGTH_SHORT).show();
                     startActivity(new Intent(getContext(), Enter.class));
@@ -105,6 +147,8 @@ public class State_Fragment extends Fragment implements View.OnClickListener{
     @Override
     public void onResume() {
         super.onResume();
+        findList();
+        init(view);
         Log.d(TAG,"onResume");
     }
 
