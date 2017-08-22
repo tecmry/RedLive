@@ -68,6 +68,7 @@
             android:layout_marginRight="15dp"
             android:layout_marginTop="10dp"
             android:id="@+id/enter_countname"
+            android:maxLines="1"
             android:hint="@string/entercountnamehint"
             android:maxLength="20"
             />
@@ -80,6 +81,7 @@
         android:layout_marginRight="15dp"
         android:layout_marginTop="15dp"
         android:hint="@string/enterpasswordshint"
+        android:maxLines="1"
         android:inputType="textPassword"
         android:maxLength="20" />
 

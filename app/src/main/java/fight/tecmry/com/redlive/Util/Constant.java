@@ -19,7 +19,7 @@ public class Constant {
         //存放用户图片类
         public static final String HEAD_DIR = "userheader/";
         public static final String HEAD_PATH = ROOT_PATH + RECORD_DIR;
-        public static final String USER_NAME = AVUser.getCurrentUser().getUsername();
+        public static final String USER_NAME = AVUser.getCurrentUser().getUsername()+"/";
 
     }
     public static class User{

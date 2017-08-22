@@ -62,9 +62,7 @@ public class State_Fragment extends Fragment implements View.OnClickListener{
     {
         mRecyclerView = (RecyclerView)view.findViewById(R.id.Rv);
         final LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
-
-
-          handler = new Handler(){
+        handler = new Handler(){
               @Override
               public void handleMessage(Message msg) {
                   super.handleMessage(msg);
@@ -79,18 +77,19 @@ public class State_Fragment extends Fragment implements View.OnClickListener{
                          public void OnItemClickListner(View view, final int position) {
                              LinearLayout linearLayout = (LinearLayout)view.findViewById(R.id.parent);
                              final TextView author = (TextView)view.findViewById(R.id.liveitem_author);
-                             final TextView Title = (TextView)view.findViewById(R.id.liveitem_title);
-                             author.setOnClickListener(new View.OnClickListener() {
-                                 @Override
-                                 public void onClick(View v) {
-                                     Log.d("Adapter","You Click this");
-                                     Intent intent = new Intent(getContext(), LiveInfo.class);
-                                     intent.putExtra("Title",Title.getText());
-                                     intent.putExtra("ConversationId", (String) itemlist.get(position).get("ConvresationId"));
-                                     intent.putExtra("Author",author.getText());
-                                     startActivity(intent);
-                                 }
-                             });
+                                  TextView Title = (TextView)view.findViewById(R.id.liveitem_title);
+                           final String tt = (String)Title.getText();
+                            view.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    Log.d("Adapter","You Click this");
+                                    Intent intent = new Intent(getContext(), LiveInfo.class);
+                                    intent.putExtra("Title",tt);
+                                    intent.putExtra("ConversationId", (String) itemlist.get(position).get("ConvresationId"));
+                                    intent.putExtra("Author",author.getText());
+                                    startActivity(intent);
+                                }
+                            });
                          }
                      });
                   }

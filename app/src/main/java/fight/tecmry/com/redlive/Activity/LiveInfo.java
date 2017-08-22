@@ -4,9 +4,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.avos.avoscloud.im.v2.AVIMClient;
 import com.avos.avoscloud.im.v2.AVIMConversation;
@@ -18,6 +20,7 @@ import cn.leancloud.chatkit.LCChatKit;
 import cn.leancloud.chatkit.activity.LCIMConversationActivity;
 import cn.leancloud.chatkit.utils.LCIMConstants;
 import fight.tecmry.com.redlive.R;
+import fight.tecmry.com.redlive.Util.Constant;
 
 /**
  * Created by Tecmry on 2017/8/21.
@@ -62,8 +65,14 @@ public class LiveInfo extends AppCompatActivity implements View.OnClickListener{
                 Intent intent = new Intent(getApplicationContext(), LCIMConversationActivity.class);
                 System.out.println(author);
                 intent.putExtra(LCIMConstants.PEER_ID, author);
-                startActivity(intent);*/
-                join();
+                startActivity(intent);
+*/
+                if (Constant.User.isLogin()) {
+                 join();
+                }else
+                    {
+                  //      Toast.makeText(LiveInfo.this,"您还未登录",Toast.LENGTH_SHORT).show();
+                    }
                 break;
         }
     }
@@ -74,14 +83,18 @@ public class LiveInfo extends AppCompatActivity implements View.OnClickListener{
                 if (e==null)
                 {
                     final AVIMConversation conversation = avimClient.getConversation(ConversationID);
+                    System.out.println("Conversation"+ConversationID);
                     conversation.join(new AVIMConversationCallback() {
                         @Override
                         public void done(AVIMException e) {
                             if (e==null)
                             {
-                                Intent intent = new Intent(LiveInfo.this, LCIMConversationActivity.class);
+                                Intent intent = new Intent(getApplicationContext(), LCIMConversationActivity.class);
                                 intent.putExtra(LCIMConstants.CONVERSATION_ID, conversation.getConversationId());
                                 startActivity(intent);
+                            }else {
+                                Log.d("LiveInfo",e.toString());
+                                Toast.makeText(LiveInfo.this,"出现错误了",Toast.LENGTH_SHORT).show();
                             }
                         }
                     });

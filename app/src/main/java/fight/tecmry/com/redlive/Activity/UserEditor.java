@@ -215,23 +215,25 @@ public class UserEditor extends AppCompatActivity implements View.OnClickListene
             @Override
             public void run() {
                 try {
-                    final AVFile avFile = AVFile.withAbsoluteLocalPath(Constant.FilePath.USER_NAME+".jpg",image_filename);
-                    avFile.saveInBackground(new SaveCallback() {
-                        @Override
-                        public void done(AVException e) {
-                            if (e!=null&&mBitmap!=null)
-                            {
-                                Toast.makeText(getApplicationContext(),"上传服务器出现问题本地已保存",Toast.LENGTH_SHORT).show();
-                                Log.d(TAG,e.toString());
-                            }else if (e==null)
-                            {
-                                Toast.makeText(getApplicationContext(),"成功保存",Toast.LENGTH_SHORT).show();
-                                System.out.println("Url" + avFile.getUrl());
-                                Constant.User.avuser.put("headImage",avFile.getUrl());
+                    System.out.println(image_filename);
+                        final AVFile avFile = AVFile.withAbsoluteLocalPath(Constant.FilePath.USER_NAME + ".jpg", image_filename);
+                        System.out.println("Url+1" + avFile.getUrl());
+                        avFile.saveInBackground(new SaveCallback() {
+                            @Override
+                            public void done(AVException e) {
+                                if (e != null && mBitmap != null) {
+                                    Toast.makeText(getApplicationContext(), "上传服务器出现问题本地已保存", Toast.LENGTH_SHORT).show();
+                                    Log.d(TAG, e.toString());
+                                } else if (e == null) {
+                                    Toast.makeText(getApplicationContext(), "成功保存", Toast.LENGTH_SHORT).show();
+                                    System.out.println("Url" + avFile.getUrl());
+                                    Constant.User.avuser.put("headImage", avFile.getUrl());
+                                }
                             }
-                        }
-                    });
-                } catch (FileNotFoundException e) {
+
+                        });
+                    }
+                catch (FileNotFoundException e) {
                     e.printStackTrace();
                 }
 

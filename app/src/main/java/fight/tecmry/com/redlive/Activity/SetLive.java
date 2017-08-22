@@ -2,7 +2,6 @@ package fight.tecmry.com.redlive.Activity;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
-import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -29,8 +28,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cn.leancloud.chatkit.LCChatKit;
-import cn.leancloud.chatkit.activity.LCIMConversationActivity;
-import cn.leancloud.chatkit.utils.LCIMConstants;
 import fight.tecmry.com.redlive.R;
 import fight.tecmry.com.redlive.Util.Constant;
 
@@ -111,7 +108,7 @@ public class SetLive extends AppCompatActivity implements View.OnClickListener
 
     private void Push()
     {
-        final String Livename = Et_setLivename.getText().toString();
+      final String Livename = Et_setLivename.getText().toString();
         final String LiveTalk = Et_setLivetalk.getText().toString();
         final String FacePeople = Et_setFacepeople.getText().toString();
 
@@ -153,9 +150,9 @@ public class SetLive extends AppCompatActivity implements View.OnClickListener
                         public void done(AVException e) {
                             if (e==null)
                             {
+                                setLive(Livename);
                                 Toast.makeText(getApplicationContext(),"你的Live信息已经上传成功",Toast.LENGTH_SHORT).show();
                                 finish();
-                                setLive();
                             }else {
                                 Log.d("SetLive",e.toString());
                             }
@@ -166,21 +163,29 @@ public class SetLive extends AppCompatActivity implements View.OnClickListener
         }
     }
 
-    private void setLive()
+    /**
+     * 在创建Live的时候进行创建Conversation
+     * */
+    private void setLive(String name)
     {
         List<String> idList = new ArrayList<>();
         idList.add(Constant.User.avuser.getUsername());
         LCChatKit.getInstance().getClient().createConversation(
-                idList,"广场", null, false, true, new AVIMConversationCreatedCallback() {
+                idList,name, null, false, true, new AVIMConversationCreatedCallback() {
                     @Override
                     public void done(final AVIMConversation avimConversation, AVIMException e) {
-                        final Intent intent = new Intent(SetLive.this, LCIMConversationActivity.class);
+                      //  final Intent intent = new Intent(SetLive.this, LCIMConversationActivity.class);
                         LiveItem.put("ConvresationId",avimConversation.getConversationId());
                         LiveItem.saveInBackground(new SaveCallback() {
                             @Override
                             public void done(AVException e) {
+                                 /**
                                 intent.putExtra(LCIMConstants.CONVERSATION_ID, avimConversation.getConversationId());
-                                startActivity(intent);
+                                  startActivity(intent);
+                            */if (e==null)
+                            {
+                                Toast.makeText(SetLive.this,"Success",Toast.LENGTH_SHORT).show();
+                            }
                             }
                         });
                     }

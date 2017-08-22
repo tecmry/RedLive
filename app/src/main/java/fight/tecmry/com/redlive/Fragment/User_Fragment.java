@@ -79,7 +79,9 @@ public class User_Fragment extends Fragment implements View.OnClickListener{
             avFile.getDataInBackground(new GetDataCallback() {
                 @Override
                 public void done(byte[] bytes, AVException e) {
-                    Glide.with(getActivity().getApplicationContext()).load(bytes).into(imageView);
+                    if (bytes!=null) {
+                        Glide.with(getActivity().getApplicationContext()).load(bytes).into(imageView);
+                    }
                 }
             });
             }
