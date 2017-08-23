@@ -78,7 +78,7 @@ public class State_Fragment extends Fragment implements View.OnClickListener{
                              LinearLayout linearLayout = (LinearLayout)view.findViewById(R.id.parent);
                              final TextView author = (TextView)view.findViewById(R.id.liveitem_author);
                                   TextView Title = (TextView)view.findViewById(R.id.liveitem_title);
-                           final String tt = (String)Title.getText();
+                           final String tt = Title.getText().toString();
                             view.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {

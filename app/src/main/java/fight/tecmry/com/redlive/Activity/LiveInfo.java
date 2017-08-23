@@ -89,6 +89,7 @@ public class LiveInfo extends AppCompatActivity implements View.OnClickListener{
                         public void done(AVIMException e) {
                             if (e==null)
                             {
+                                System.out.println("ConversationId"+conversation.getConversationId());
                                 Intent intent = new Intent(getApplicationContext(), LCIMConversationActivity.class);
                                 intent.putExtra(LCIMConstants.CONVERSATION_ID, conversation.getConversationId());
                                 startActivity(intent);

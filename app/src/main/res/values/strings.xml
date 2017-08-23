@@ -33,4 +33,5 @@
     <string name="livename">Live名称</string>
     <string name="setLive_topeople">Live面向人群</string>
     <string name="createLive">创建Live</string>
+    <string name="city">城市</string>
 </resources>

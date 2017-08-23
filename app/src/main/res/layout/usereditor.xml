@@ -140,4 +140,29 @@
 
             />
     </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="15dp"
+        android:orientation="horizontal"
+        android:weightSum="1">
+
+        <TextView
+            android:layout_width="70dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="10dp"
+            android:text="@string/city"
+            android:gravity="center"
+            android:textSize="15sp"
+            />
+
+        <EditText
+            android:id="@+id/Et_City"
+            android:layout_width="170dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.67"
+            android:maxLines="2"
+
+            />
+    </LinearLayout>
 </LinearLayout>

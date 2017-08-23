@@ -48,7 +48,7 @@ public class UserEditor extends AppCompatActivity implements View.OnClickListene
     private EditText Et_email;
     private EditText Et_Work;
     private EditText Et_motto;
-
+    private EditText Et_City;
     private CheckBox Cb_man;
     private CheckBox Cb_woman;
 
@@ -87,7 +87,7 @@ public class UserEditor extends AppCompatActivity implements View.OnClickListene
 
         user_image = (ImageView)findViewById(R.id.user_image);
         user_image.setOnClickListener(this);
-        Bitmap  bitmap = BitmapFactory.decodeFile(Constant.FilePath.ROOT_PATH+ Constant.FilePath.USER_NAME+ "/head.jpg");
+        Bitmap  bitmap = BitmapFactory.decodeFile(Constant.FilePath.ROOT_PATH+ Constant.FilePath.USER_NAME+filename);
         if (bitmap!=null)
         {
             user_image.setImageBitmap(bitmap);
@@ -96,10 +96,16 @@ public class UserEditor extends AppCompatActivity implements View.OnClickListene
         Et_email = (EditText)findViewById(R.id.Et_email);
         Et_email.setText(AVUser.getCurrentUser().getEmail());
         Et_motto = (EditText)findViewById(R.id.Et_motto);
-        Et_motto.setText((CharSequence) AVUser.getCurrentUser().get("motto"));
+        if ((CharSequence) AVUser.getCurrentUser().get("motto")!=null) {
+            Et_motto.setText((CharSequence) AVUser.getCurrentUser().get("motto"));
+        }
         Et_Work = (EditText)findViewById(R.id.Et_work);
-        Et_Work.setText((CharSequence) AVUser.getCurrentUser().get("work"));
-
+        if ((CharSequence) AVUser.getCurrentUser().get("work")!=null) {
+            Et_Work.setText((CharSequence) AVUser.getCurrentUser().get("work"));
+        }
+        if ((CharSequence) AVUser.getCurrentUser().get("city")!=null) {
+            Et_City.setText((CharSequence) AVUser.getCurrentUser().get("city"));
+        }
         boolean isChecked = false;
         Cb_man = (CheckBox)findViewById(R.id.Cb_man);
         Cb_man.setOnClickListener(this);
@@ -175,6 +181,7 @@ public class UserEditor extends AppCompatActivity implements View.OnClickListene
             final String email = Et_email.getText().toString();
             final String work = Et_Work.getText().toString();
             final String mooto = Et_motto.getText().toString();
+            final String city = Et_City.getText().toString();
             boolean isMan = Cb_man.isChecked();
             boolean isWomen = Cb_woman.isChecked();
             String sex = null;
@@ -200,6 +207,7 @@ public class UserEditor extends AppCompatActivity implements View.OnClickListene
                     Constant.User.avuser.setEmail(email);
                     Constant.User.avuser.put("work",work);
                     Constant.User.avuser.put("motto",mooto);
+                    Constant.User.avuser.put("city",city);
                     System.out.println(sexx);
                     Constant.User.avuser.put("sex",sexx);
                     //Constant.User.avuser.saveInBackground();
@@ -216,7 +224,8 @@ public class UserEditor extends AppCompatActivity implements View.OnClickListene
             public void run() {
                 try {
                     System.out.println(image_filename);
-                        final AVFile avFile = AVFile.withAbsoluteLocalPath(Constant.FilePath.USER_NAME + ".jpg", image_filename);
+                       AVFile avFile = AVFile.withAbsoluteLocalPath(Constant.FilePath.USER_NAME + ".jpg", image_filename);
+                    final  String  url = avFile.getUrl();
                         System.out.println("Url+1" + avFile.getUrl());
                         avFile.saveInBackground(new SaveCallback() {
                             @Override
@@ -226,8 +235,7 @@ public class UserEditor extends AppCompatActivity implements View.OnClickListene
                                     Log.d(TAG, e.toString());
                                 } else if (e == null) {
                                     Toast.makeText(getApplicationContext(), "成功保存", Toast.LENGTH_SHORT).show();
-                                    System.out.println("Url" + avFile.getUrl());
-                                    Constant.User.avuser.put("headImage", avFile.getUrl());
+                                    Constant.User.avuser.put("headImage", url);
                                 }
                             }
 

@@ -40,7 +40,7 @@
             getPermission();
             if (Constant.User.isLogin())
             {
-              // startOpen();
+               startOpen();
             }
         }
 
