@@ -135,12 +135,7 @@ public class SetLive extends AppCompatActivity implements View.OnClickListener
             FoucusView = Et_setFacepeople;
             Et_setFacepeople.setError("不能为空");
         }
-        if (!talker.isEmpty())
-        {
-            isNext  = false;
-            FoucusView = Et_talker;
-            Et_talker.setError("不能为空");
-        }
+
         if (isNext)
         {
             showProgress(true);
