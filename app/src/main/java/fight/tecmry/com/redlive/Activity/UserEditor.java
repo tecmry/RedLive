@@ -212,7 +212,7 @@ public class UserEditor extends AppCompatActivity implements View.OnClickListene
                             if (e == null) {
                                 Toast.makeText(UserEditor.this, "已经执行上传了", Toast.LENGTH_SHORT).show();
                                 Constant.User.avuser.put("email", email);
-                                Constant.User.avuser.put("work", work);
+                                Constant.User.avuser.put("hobby", work);
                                 Constant.User.avuser.put("motto", mooto);
                                 Constant.User.avuser.put("city", city);
                                 System.out.println(sexx);

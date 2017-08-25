@@ -36,12 +36,13 @@
        android:orientation="horizontal"
        android:layout_marginTop="15dp"
        >
-       <ImageView
-           android:layout_width="50dp"
-           android:layout_height="50dp"
-           android:layout_marginLeft="15dp"
-           />
-
+    <TextView
+        android:layout_width="70dp"
+        android:layout_height="match_parent"
+        android:text="@string/talkpeople"
+        android:gravity="center"
+        android:layout_gravity="center"
+        />
        <TextView
            android:id="@+id/authorname"
            android:layout_width="150dp"
@@ -51,9 +52,28 @@
    </LinearLayout>
     <TextView
         android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginTop="20dp"
+        android:text="@string/talkyourself"
+        android:gravity="center"
+        />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:id="@+id/Tv_talk"
+        android:layout_marginTop="30dp"
+        />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginTop="20dp"
+        android:gravity="center"
+        android:text="@string/talkLiove"
+        />
+    <TextView
+        android:layout_width="match_parent"
         android:layout_height="150dp"
         android:id="@+id/Tv_livetalk"
-        android:layout_marginTop="30dp"
         />
 </LinearLayout>
 </ScrollView>

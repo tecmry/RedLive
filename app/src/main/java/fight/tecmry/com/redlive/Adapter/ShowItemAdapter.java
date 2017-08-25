@@ -11,6 +11,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.avos.avoscloud.AVObject;
+import com.avos.avoscloud.AVQuery;
+import com.avos.avoscloud.AVUser;
+import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,9 +53,31 @@ public class ShowItemAdapter extends RecyclerView.Adapter<ShowItemAdapter.ViewHo
         holder.Author.setText((CharSequence) list.get(position).get("Author"));
 
         //设置给头像
-
+        final String[] url = {null};
         holder.like.setText((CharSequence) list.get(position).get("Like"));
         holder.like.setText((CharSequence)list.get(position).get("View"));
+        String userId = (String) list.get(position).get("userId");
+        AVQuery<AVUser> userQuery = new AVQuery<>("_User");
+        userQuery.whereEqualTo("objectId",userId);
+        /**
+        userQuery.findInBackground(new FindCallback<AVUser>() {
+            @Override
+            public void done(List<AVUser> list, AVException e) {
+                if (e==null) {
+                    AVUser user = list.get(0);
+                    url[0] = (String) user.get("imageUrl");
+                }
+
+            }
+        });*/
+        Glide.with(context).load(R.drawable.grouptalk).into(holder.imageView);
+        /**
+        if (!url[0].isEmpty())
+        {
+            Glide.with(context).load(url[0]).into(holder.imageView);
+        }else {
+            Glide.with(context).load(R.drawable.grouptalk).into(holder.imageView);
+        }*/
         if (listner!=null){
 
             holder.parent.setOnClickListener(new View.OnClickListener() {

@@ -9,7 +9,6 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.KeyEvent;
-import android.view.Window;
 import android.widget.Toast;
 
 import com.avos.avoscloud.im.v2.AVIMClient;
@@ -20,7 +19,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cn.leancloud.chatkit.LCChatKit;
-import fight.tecmry.com.redlive.Fragment.HomePage_Fragment;
 import fight.tecmry.com.redlive.Fragment.State_Fragment;
 import fight.tecmry.com.redlive.Fragment.User_Fragment;
 import fight.tecmry.com.redlive.R;
@@ -36,20 +34,23 @@ import fight.tecmry.com.redlive.Util.Constant;
             setContentView(R.layout.activity_main);
             tableLayout = (TabLayout) findViewById(R.id.tab_layout2);
 
-            Window window = getWindow();
             setTab();
 
            getPermission();
             if (Constant.User.isLogin())
             {
-               startOpen();
+                try {
+                startOpen();
+            }catch (NullPointerException e){
+                e.printStackTrace();
+            }
             }
 
         }
 
 
         private void setTab() {
-            getSupportFragmentManager().beginTransaction().replace(R.id.add_Fragment, new HomePage_Fragment()).commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.add_Fragment, new State_Fragment()).commit();
             tableLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
                 @Override
                 public void onTabSelected(TabLayout.Tab tab) {
@@ -88,7 +89,7 @@ import fight.tecmry.com.redlive.Util.Constant;
 
         private void getPermission()
         {
-            List<String> permissionList = new ArrayList<>();
+            final List<String> permissionList = new ArrayList<>();
             if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE)
                     == PackageManager.PERMISSION_GRANTED){
                 permissionList.add(Manifest.permission.READ_EXTERNAL_STORAGE);
@@ -139,7 +140,11 @@ import fight.tecmry.com.redlive.Util.Constant;
             super.onResume();
             if (Constant.User.isLogin())
             {
-                startOpen();
+                try {
+                    startOpen();
+                }catch (NullPointerException e){
+                    e.printStackTrace();
+                }
             }
         }
 

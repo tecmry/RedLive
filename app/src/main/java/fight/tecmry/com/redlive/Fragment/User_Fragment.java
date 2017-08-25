@@ -9,11 +9,13 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -30,6 +32,7 @@ import fight.tecmry.com.redlive.Activity.Enter;
 import fight.tecmry.com.redlive.Activity.SeachCount;
 import fight.tecmry.com.redlive.Activity.UserEditor;
 import fight.tecmry.com.redlive.Activity.WithMe;
+import fight.tecmry.com.redlive.Activity.searchFriend;
 import fight.tecmry.com.redlive.Bean.EverydaySentenceData;
 import fight.tecmry.com.redlive.R;
 import fight.tecmry.com.redlive.Util.Constant;
@@ -59,12 +62,12 @@ public class User_Fragment extends Fragment implements View.OnClickListener{
     private AVUser avUser;
 
     private Handler handler;
-
-    private static String path = "/sdcard/"+Constant.User.avuser.getUsername()+"/";
     private static String BASE_URL= "http://open.iciba.com";
     private String sentenceUrl;
     private String sentence;
     private String text;
+    private Toolbar toolbar;
+    private ImageButton imageButton;
 
     private SelectPopUpWindow popUpWindow;
     @Nullable
@@ -78,6 +81,9 @@ public class User_Fragment extends Fragment implements View.OnClickListener{
 
     private void init(View view)
     {
+        imageButton = (ImageButton)view.findViewById(R.id.Ib_search);
+        imageButton.setOnClickListener(this);
+        toolbar = (Toolbar)view.findViewById(R.id.usernews_toolbar);
         userimage = (ImageView)view.findViewById(R.id.usernews_userimage);
         userimage.setOnClickListener(this);
         if (Constant.User.isLogin()) {
@@ -119,9 +125,10 @@ public class User_Fragment extends Fragment implements View.OnClickListener{
           }
       };
     }
+
     private void loadImage(final ImageView imageView)
     {
-        Bitmap bitmap = BitmapFactory.decodeFile(path + "head.jpg");
+        Bitmap bitmap = BitmapFactory.decodeFile("/sdcard/"+Constant.User.avuser.getUsername()+"/" + "head.jpg");
         if (bitmap!=null)
         {
            imageView.setImageBitmap(bitmap);
@@ -193,6 +200,14 @@ public class User_Fragment extends Fragment implements View.OnClickListener{
             case R.id.textView9:
                 startActivity(new Intent(getContext(), SeachCount.class));
                 break;
+            case R.id.Ib_search:
+                if (Constant.User.isLogin()) {
+                    startActivity(new Intent(getContext(), searchFriend.class));
+                }else {
+                    Toast.makeText(getContext(),"请先登录",Toast.LENGTH_SHORT).show();
+                    startActivity(new Intent(getContext(),Enter.class));
+                }
+                    break;
         }
 
     }

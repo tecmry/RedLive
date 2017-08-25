@@ -131,6 +131,10 @@ public class Enter extends AppCompatActivity implements View.OnClickListener{
          case R.id.enter_Tv:
              attemptLogin();
              break;
+         case R.id.enter_cancel:
+             startActivity(new Intent(Enter.this,MainActivity.class));
+             finish();
+             break;
      }
     }
     private boolean isPasswordValid(String password){

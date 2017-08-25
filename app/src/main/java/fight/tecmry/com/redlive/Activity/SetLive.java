@@ -40,6 +40,7 @@ public class SetLive extends AppCompatActivity implements View.OnClickListener
      private EditText Et_setLivename;
      private EditText Et_setLivetalk;
      private EditText Et_setFacepeople;
+    private EditText Et_talker;
 
     private LinearLayout LoginFormView;
     private ProgressBar mProgressBar;
@@ -62,6 +63,8 @@ public class SetLive extends AppCompatActivity implements View.OnClickListener
         Et_setFacepeople = (EditText)findViewById(R.id.Et_setterpeople);
         Et_setLivename = (EditText)findViewById(R.id.setLive_Etlivename);
         Et_setLivetalk = (EditText)findViewById(R.id.setLive_livetalk);
+        Et_talker = (EditText)findViewById(R.id.Et_yourself);
+        Et_talker.setOnClickListener(this);
         Et_setFacepeople.setOnClickListener(this);
         Et_setLivetalk.setOnClickListener(this);
         Et_setLivename.setOnClickListener(this);
@@ -111,7 +114,7 @@ public class SetLive extends AppCompatActivity implements View.OnClickListener
       final String Livename = Et_setLivename.getText().toString();
         final String LiveTalk = Et_setLivetalk.getText().toString();
         final String FacePeople = Et_setFacepeople.getText().toString();
-
+        final String talker = Et_talker.getText().toString();
         View FoucusView = null;
         /**
          * 下面做一些条件判断
@@ -132,6 +135,12 @@ public class SetLive extends AppCompatActivity implements View.OnClickListener
             FoucusView = Et_setFacepeople;
             Et_setFacepeople.setError("不能为空");
         }
+        if (!talker.isEmpty())
+        {
+            isNext  = false;
+            FoucusView = Et_talker;
+            Et_talker.setError("不能为空");
+        }
         if (isNext)
         {
             showProgress(true);
@@ -144,6 +153,8 @@ public class SetLive extends AppCompatActivity implements View.OnClickListener
                     LiveItem.put("talk",LiveTalk);
                     LiveItem.put("facepeople",FacePeople);
                     LiveItem.put("Author",avUser.getUsername());
+                    LiveItem.put("talker",talker);
+                    LiveItem.put("userId",avUser.getObjectId());
                     LiveItem.put(AvDependent,avUser);
                     LiveItem.saveInBackground(new SaveCallback() {
                         @Override

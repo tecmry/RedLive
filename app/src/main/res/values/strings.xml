@@ -8,7 +8,7 @@
     <string name="continuestudy">持续学习</string>
     <string name="enterTitle">登录RedLive</string>
     <string name="gotoregister">去注册 ></string>
-    <string name="entercountnamehint">邮箱/用户名</string>
+    <string name="entercountnamehint">用户名</string>
     <string name="enterpasswordshint">密码</string>
     <string name="enter">登录</string>
     <string name="welcome">欢迎来到RedLive</string>
@@ -19,7 +19,7 @@
     <string name="sex">性别</string>
     <string name="email">邮箱</string>
     <string name="motto">签名</string>
-    <string name="work">所处职业</string>
+    <string name="work">兴趣</string>
     <string name="woman">女</string>
     <string name="man">男</string>
     <string name="hello">你也好呀</string>
@@ -38,4 +38,7 @@
     <string name="everydaysentence">每日一句</string>
     <string name="myemail">tecmry6@gmail.com</string>
     <string name="yourself">主讲人介绍</string>
+    <string name="talkpeople">主讲人:</string>
+    <string name="talkyourself">主讲人介绍</string>
+    <string name="talkLiove">Live介绍</string>
 </resources>

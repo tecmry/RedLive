@@ -2,6 +2,7 @@ package fight.tecmry.com.redlive.Activity;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -21,7 +22,6 @@ import java.util.List;
 import cn.leancloud.chatkit.LCChatKit;
 import fight.tecmry.com.redlive.Adapter.WithItemAdapter;
 import fight.tecmry.com.redlive.R;
-import fight.tecmry.com.redlive.Util.Constant;
 
 /**
  * Created by Tecmry on 2017/8/24.
@@ -33,6 +33,7 @@ public class WithMe extends AppCompatActivity
     private LinearLayoutManager layoutManager;
     private WithItemAdapter adapter;
     private Toolbar toolbar;
+    private SwipeRefreshLayout refreshLayout;
     private List<AVIMConversation> mList = new ArrayList<AVIMConversation>();
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -43,11 +44,20 @@ public class WithMe extends AppCompatActivity
     private void init()
     {
       recyclerView = (RecyclerView)findViewById(R.id.with_Rv);
-        AVIMClient client = LCChatKit.getInstance().getClient();
         toolbar = (Toolbar)findViewById(R.id.with_toolbar);
         toolbar.setTitle("与我相关");
-       Log.d("WithMe",Constant.User.avuser.getObjectId());
-        System.out.println("WithMe" +Constant.User.avuser.getObjectId());
+        with();
+        refreshLayout = (SwipeRefreshLayout)findViewById(R.id.fresh);
+        refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                with();
+            }
+        });
+    }
+    private void with()
+    {
+        AVIMClient client = LCChatKit.getInstance().getClient();
         AVIMConversationsQuery query = client.getConversationsQuery();
         query.findInBackground(new AVIMConversationQueryCallback() {
             @Override
@@ -62,6 +72,7 @@ public class WithMe extends AppCompatActivity
                     recyclerView.setLayoutManager(layoutManager);
                     recyclerView.setAdapter(adapter);
                     adapter.notifyDataSetChanged();
+                    refreshLayout.setRefreshing(false);
                 }else {
                     Toast.makeText(WithMe.this,"是不是没联网呢",Toast.LENGTH_SHORT).show();
                     Log.d("Witheme",e.toString());
@@ -69,7 +80,6 @@ public class WithMe extends AppCompatActivity
             }
         });
     }
-
     @Override
     protected void onResume() {
         super.onResume();
