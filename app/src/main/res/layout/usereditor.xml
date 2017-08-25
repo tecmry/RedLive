@@ -13,6 +13,7 @@
     android:navigationIcon="@drawable/no"
     app:navigationIcon="@drawable/no"
     android:id="@+id/usereditor_toolbar"
+    app:theme="@style/ToolbarTheme"
     >
 </android.support.v7.widget.Toolbar>
     <LinearLayout

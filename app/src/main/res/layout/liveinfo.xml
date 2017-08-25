@@ -15,6 +15,7 @@
         android:layout_height="75dp"
         android:gravity="center|left"
         android:hint="Title"
+        android:layout_marginLeft="15pt"
         android:textSize="30sp" />
     <TextView
         android:layout_width="match_parent"
@@ -25,6 +26,9 @@
         android:layout_width="match_parent"
         android:layout_height="45dp"
         android:id="@+id/Bt_addLive"
+        android:text="@string/Enter_live"
+        android:background="@color/toolbarcolor"
+
         />
    <LinearLayout
        android:layout_width="match_parent"

@@ -75,6 +75,10 @@ public class Register extends AppCompatActivity implements View.OnClickListener{
             case R.id.register_Tv:
                 attempt();
                 break;
+            case R.id.havecount:
+                startActivity(new Intent(Register.this,Enter.class));
+                finish();
+                break;
         }
     }
     private void attempt()

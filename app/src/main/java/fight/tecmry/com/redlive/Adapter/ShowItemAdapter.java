@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.avos.avoscloud.AVObject;
@@ -62,12 +61,13 @@ public class ShowItemAdapter extends RecyclerView.Adapter<ShowItemAdapter.ViewHo
                     listner.OnItemClickListner(v,position);
                 }
             });
+            /**
             holder.Author.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     listner.OnItemClickListner(v,position);
                 }
-            });
+            });*/
         }
     }
 
@@ -81,7 +81,6 @@ public class ShowItemAdapter extends RecyclerView.Adapter<ShowItemAdapter.ViewHo
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView Title;
         TextView Author;
-        RatingBar ratingBar;
         ImageView imageView;
         TextView  like;
         ImageButton imageButton;
@@ -93,7 +92,6 @@ public class ShowItemAdapter extends RecyclerView.Adapter<ShowItemAdapter.ViewHo
             parent = (LinearLayout)itemView.findViewById(R.id.parent);
             Title = (TextView)itemView.findViewById(R.id.liveitem_title);
             Author = (TextView)itemView.findViewById(R.id.liveitem_author);
-            ratingBar = (RatingBar)itemView.findViewById(R.id.liveitem_ratingbar);
             imageView = (ImageView)itemView.findViewById(R.id.LiveImage);
             like = (TextView)itemView.findViewById(R.id.textView3);
             imageButton = (ImageButton)itemView.findViewById(R.id.like);

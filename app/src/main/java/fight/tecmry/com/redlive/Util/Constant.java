@@ -1,5 +1,7 @@
 package fight.tecmry.com.redlive.Util;
 
+import android.os.Environment;
+
 import com.avos.avoscloud.AVUser;
 
 /**
@@ -12,7 +14,7 @@ public class Constant {
         //存放录音类
         //根目录不写/sdcard/没办法读取
 
-        public static final String ROOT_PATH = "/sdcard/";
+        public static final String ROOT_PATH = Environment.getExternalStorageDirectory().getPath();
         public static final String RECORD_DIR = "record/";
         public static final String RECORD_PATH = ROOT_PATH + RECORD_DIR;
 

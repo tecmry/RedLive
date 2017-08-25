@@ -1,7 +1,9 @@
 package fight.tecmry.com.redlive.Util;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import cn.leancloud.chatkit.LCChatKitUser;
 import cn.leancloud.chatkit.LCChatProfileProvider;
 import cn.leancloud.chatkit.LCChatProfilesCallBack;
 
@@ -12,6 +14,7 @@ import cn.leancloud.chatkit.LCChatProfilesCallBack;
 public class CustomProvider implements LCChatProfileProvider{
 
     private static CustomProvider customProvider;
+    private static List<LCChatKitUser> userList = new ArrayList<LCChatKitUser>();
     public synchronized static CustomProvider getInstance()
     {
         if (customProvider==null){
@@ -19,7 +22,12 @@ public class CustomProvider implements LCChatProfileProvider{
         }
         return customProvider;
     }
+    private CustomProvider(){}
 
+    private void addList()
+    {
+
+    }
     @Override
     public void fetchProfiles(List<String> userIdList, LCChatProfilesCallBack profilesCallBack) {
 

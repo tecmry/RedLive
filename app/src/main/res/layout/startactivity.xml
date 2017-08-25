@@ -2,11 +2,18 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
-<TextView
+<ImageView
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/M_text"
-    android:text="fsmajfjsk"
-    android:fitsSystemWindows="true"
+    android:layout_weight="1"
+    android:id="@+id/start_image"
+    android:scaleType="centerCrop"
     />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:id="@+id/start_TextView"
+        android:gravity="center"
+        android:hint="You Can"
+        />
 </LinearLayout>

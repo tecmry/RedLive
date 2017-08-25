@@ -30,14 +30,19 @@ import android.widget.Toast;
 import com.avos.avoscloud.AVException;
 import com.avos.avoscloud.AVFile;
 import com.avos.avoscloud.AVUser;
+import com.avos.avoscloud.GetDataCallback;
 import com.avos.avoscloud.SaveCallback;
+import com.bumptech.glide.Glide;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.HashMap;
 
 import fight.tecmry.com.redlive.R;
 import fight.tecmry.com.redlive.Util.Constant;
+import fight.tecmry.com.redlive.Util.GlideCircleTransform;
 
 
 public class UserEditor extends AppCompatActivity implements View.OnClickListener {
@@ -53,7 +58,8 @@ public class UserEditor extends AppCompatActivity implements View.OnClickListene
     private CheckBox Cb_woman;
 
     private String TAG = "UserEditor";
-    private static final String filename = "head.jpg";
+    private static String path = "/sdcard/"+Constant.User.avuser.getUsername()+"/";
+    private static final String filename= "head.jpg";
     private static String image_filename;
 
     private static final int take_photo = 1;
@@ -63,7 +69,7 @@ public class UserEditor extends AppCompatActivity implements View.OnClickListene
     private int addFile = 0;
     private int checkHeadTimes = 0;
     private Bitmap mBitmap;
-
+    private String name = Constant.User.avuser.getUsername()+".jpg";
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,6 +80,7 @@ public class UserEditor extends AppCompatActivity implements View.OnClickListene
 
     private void init() {
         toolbar = (Toolbar) findViewById(R.id.usereditor_toolbar);
+        toolbar.setTitle(Constant.User.avuser.getUsername());
         setSupportActionBar(toolbar);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -82,20 +89,20 @@ public class UserEditor extends AppCompatActivity implements View.OnClickListene
                 finish();
         }
         });
-        toolbar.setTitle("");
 
 
         user_image = (ImageView)findViewById(R.id.user_image);
         user_image.setOnClickListener(this);
-        Bitmap  bitmap = BitmapFactory.decodeFile(Constant.FilePath.ROOT_PATH+ Constant.FilePath.USER_NAME+filename);
-        if (bitmap!=null)
-        {
-            user_image.setImageBitmap(bitmap);
-        }
+        loadImage(user_image);
 
         Et_email = (EditText)findViewById(R.id.Et_email);
         Et_email.setText(AVUser.getCurrentUser().getEmail());
         Et_motto = (EditText)findViewById(R.id.Et_motto);
+        Et_City = (EditText)findViewById(R.id.Et_City);
+        if (AVUser.getCurrentUser().get("email")!=null)
+        {
+            Et_email.setText((CharSequence) Constant.User.avuser.get("email"));
+        }
         if ((CharSequence) AVUser.getCurrentUser().get("motto")!=null) {
             Et_motto.setText((CharSequence) AVUser.getCurrentUser().get("motto"));
         }
@@ -178,6 +185,8 @@ public class UserEditor extends AppCompatActivity implements View.OnClickListene
     * */
     private void change()
     {
+        try {
+
             final String email = Et_email.getText().toString();
             final String work = Et_Work.getText().toString();
             final String mooto = Et_motto.getText().toString();
@@ -185,71 +194,108 @@ public class UserEditor extends AppCompatActivity implements View.OnClickListene
             boolean isMan = Cb_man.isChecked();
             boolean isWomen = Cb_woman.isChecked();
             String sex = null;
-            if (isMan||isWomen)
-            {
-                if (isMan)
-                {
+            if (isMan || isWomen) {
+                if (isMan) {
                     sex = "男";
-                }else if (isWomen)
-                {
+                } else if (isWomen) {
                     sex = "女";
                 }
             }
             final String sexx = sex;
             //上传信息 不进行空判断
-        new Thread(new Runnable() {
-    @Override
-    public void run() {
-        AVUser.getCurrentUser().saveInBackground(new SaveCallback() {
-            @Override
-            public void done(AVException e) {
-                if (e == null) {
-                    Constant.User.avuser.setEmail(email);
-                    Constant.User.avuser.put("work",work);
-                    Constant.User.avuser.put("motto",mooto);
-                    Constant.User.avuser.put("city",city);
-                    System.out.println(sexx);
-                    Constant.User.avuser.put("sex",sexx);
-                    //Constant.User.avuser.saveInBackground();
-                }else
-                {
-                    Toast.makeText(UserEditor.this,e.toString(),Toast.LENGTH_SHORT).show();
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    AVUser.getCurrentUser().saveInBackground(new SaveCallback() {
+                        @Override
+                        public void done(AVException e) {
+                            if (e == null) {
+                                Toast.makeText(UserEditor.this, "已经执行上传了", Toast.LENGTH_SHORT).show();
+                                Constant.User.avuser.put("email", email);
+                                Constant.User.avuser.put("work", work);
+                                Constant.User.avuser.put("motto", mooto);
+                                Constant.User.avuser.put("city", city);
+                                System.out.println(sexx);
+                                Constant.User.avuser.put("sex", sexx);
+                                Constant.User.avuser.saveInBackground();
+                            } else {
+                                Toast.makeText(UserEditor.this, e.toString(), Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
                 }
-            }
-        });
-    }
-}).start();
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    System.out.println(image_filename);
-                       AVFile avFile = AVFile.withAbsoluteLocalPath(Constant.FilePath.USER_NAME + ".jpg", image_filename);
-                    final  String  url = avFile.getUrl();
-                        System.out.println("Url+1" + avFile.getUrl());
-                        avFile.saveInBackground(new SaveCallback() {
+            }).start();
+            int  i =0;
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    System.out.println("name" + name);
+                    try {
+                        final AVFile file = AVFile.withAbsoluteLocalPath(Constant.User.avuser.getUsername()+".jpg",path + "head.jpg");
+                        file.saveInBackground(new SaveCallback() {
                             @Override
                             public void done(AVException e) {
-                                if (e != null && mBitmap != null) {
-                                    Toast.makeText(getApplicationContext(), "上传服务器出现问题本地已保存", Toast.LENGTH_SHORT).show();
-                                    Log.d(TAG, e.toString());
-                                } else if (e == null) {
-                                    Toast.makeText(getApplicationContext(), "成功保存", Toast.LENGTH_SHORT).show();
-                                    Constant.User.avuser.put("headImage", url);
+                                if (e==null){
+                                    Toast.makeText(UserEditor.this,"Photo is Push",Toast.LENGTH_SHORT).show();
+                                    AVUser.getCurrentUser().put("imageUrl",file.getUrl());
+                                    AVUser.getCurrentUser().saveInBackground(new SaveCallback() {
+                                        @Override
+                                        public void done(AVException e) {
+                                            if (e==null)
+                                            {
+                                                Log.d(TAG,"OK");
+                                            }
+                                        }
+                                    });
                                 }
                             }
-
                         });
+                    } catch (FileNotFoundException ed) {
+                        ed.printStackTrace();
                     }
-                catch (FileNotFoundException e) {
-                    e.printStackTrace();
                 }
-
+            }).start();
+            Toast.makeText(UserEditor.this, "修改成功", Toast.LENGTH_SHORT).show();
+        }catch (NullPointerException e){
+            Log.e("UserEditor",e.toString());
+        }
+    }
+    /**
+     *
+     * */
+    private boolean checkNull(String str)
+    {
+        if (str!=null)
+        {
+            return true;
+        }else {
+            return false;
+        }
+    }
+    private void loadImage(final ImageView imageView)
+    {
+        Bitmap bitmap = BitmapFactory.decodeFile(path + "head.jpg");
+        if (bitmap!=null)
+        {
+            imageView.setImageBitmap(bitmap);
+        }else {new Thread(new Runnable() {
+            @Override
+            public void run() {
+                AVFile avFile = new AVFile(Constant.User.avuser.getUsername() + ".jpg",
+                        (String) Constant.User.avuser.get("headImage"),new HashMap<String,Object>());
+                avFile.getDataInBackground(new GetDataCallback() {
+                    @Override
+                    public void done(byte[] bytes, AVException e) {
+                        if (bytes!=null) {
+                            Glide.with(UserEditor.this).load(bytes).
+                                    transform(new GlideCircleTransform(UserEditor.this)).into(imageView);
+                        }
+                    }
+                });
             }
         }).start();
-        Toast.makeText(UserEditor.this,"修改成功",Toast.LENGTH_SHORT).show();
+        }
     }
-
     /**
      * 实现更换头像
      * */
@@ -272,7 +318,7 @@ public class UserEditor extends AppCompatActivity implements View.OnClickListene
     }
     public void setPhoto() {
 
-        if (ContextCompat.checkSelfPermission(UserEditor.this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
+        if (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
             if (isSdCardExiting()) {
                 Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                 intent.putExtra(MediaStore.EXTRA_OUTPUT, getUrl());
@@ -282,7 +328,7 @@ public class UserEditor extends AppCompatActivity implements View.OnClickListene
                 Toast.makeText(UserEditor.this, "可能没有插入SD卡", Toast.LENGTH_LONG).show();
             }
         }else {
-            new AlertDialog.Builder(UserEditor.this)
+            new AlertDialog.Builder(getApplicationContext())
                     .setMessage("申请相机权限")
                     .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                         @Override
@@ -296,20 +342,23 @@ public class UserEditor extends AppCompatActivity implements View.OnClickListene
     public void getPhoto()
     {
         Intent intent = new Intent();
-
+        // 获取本地相册方法一
         intent.setAction(Intent.ACTION_GET_CONTENT);
         intent.setType("image/*");
-
+        //获取本地相册方法二
+        //        intent.setAction(Intent.ACTION_PICK);
+        //        intent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+        //                "image/*");
         startActivityForResult(intent, core_photo);
     }
     private void photoClip(Uri uri) {
-
+        // 调用系统中自带的图片剪裁
         Intent intent = new Intent();
         intent.setAction("com.android.camera.action.CROP");
         intent.setDataAndType(uri, "image/*");
-
+        // 下面这个crop=true是设置在开启的Intent中设置显示的VIEW可裁剪
         intent.putExtra("crop", "true");
-
+        // aspectX aspectY 是宽高的比例
         intent.putExtra("aspectX", 1);
         intent.putExtra("aspectY", 1);
         intent.putExtra("outputX", 100);
@@ -322,11 +371,10 @@ public class UserEditor extends AppCompatActivity implements View.OnClickListene
         if (extras != null) {
             Bitmap photo = extras.getParcelable("data");
             saveBitmap(photo);
-
-            //在这里设置图片
-            user_image.setImageBitmap(photo);
-
-
+            /**
+             * 这样不能获取到CircleView实例；
+             * */
+           user_image.setImageBitmap(photo);
         }
     }
     @Override
@@ -386,41 +434,34 @@ public class UserEditor extends AppCompatActivity implements View.OnClickListene
             }
         }
     }
-    /**
-     * 需要改进
-     * */
-    private void saveBitmap(final Bitmap bitmap){
+    private void saveBitmap(Bitmap bitmap){
         String sdStatus = Environment.getExternalStorageState();
         if (!sdStatus.equals(Environment.MEDIA_MOUNTED))
         { // 检测sd是否可用
             return;
         }
-        FileOutputStream b;
-            File file = new File(Constant.FilePath.ROOT_PATH+Constant.FilePath.USER_NAME);
-        file.mkdirs();
-        if (!file.exists()&&!file.isDirectory()) {
-            //检查文件是否存在
-            Log.d(TAG,"File not exists");
-            file.mkdirs();
-        }else {
-            Log.d(TAG,"File  exists");
-        }
-        //给每个用户分配一个文件进行存储
-            image_filename = Constant.FilePath.ROOT_PATH +Constant.FilePath.USER_NAME + filename;
-        System.out.println("image_filename"+image_filename);
-        mBitmap = bitmap;
+        FileOutputStream b = null;
+
+            File file_left = new File(path);
+            file_left.mkdirs();// 创建文件夹
+            image_filename = path + "head.jpg";// 图片名字
 
         try
         {
+            System.out.println(image_filename + "image");
             b = new FileOutputStream(image_filename);
             bitmap.compress(Bitmap.CompressFormat.JPEG, 100, b);// 把数据写入文件
-            b.flush();
-            b.close();
-        }  catch (Exception e) {
-            Log.d("HHHH",e.toString());
+        } catch (FileNotFoundException e) {
             e.printStackTrace();
+        } finally {
+            try {
+                // 关闭流
+                b.flush();
+                b.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
-
 
 }

@@ -7,8 +7,8 @@ import com.avos.avoscloud.AVOSCloud;
 import cn.leancloud.chatkit.LCChatKit;
 
 public class MyLeanCloud extends Application {
-    private static final String APP_ID =  "mG3iiIfnY4daycqwRO44DY7m-gzGzoHsz";
-    private static final String APP_KEY = "9J3aci9tjqMCFTutQ0eLfY08";
+    private static final String APP_ID =  "8gYICsgijm604TfN1LQG9Vb3-gzGzoHsz";
+    private static final String APP_KEY = "MVLOl54w9TLQgwlCkfh8MAVo";
         @Override
         public void onCreate() {
             super.onCreate();

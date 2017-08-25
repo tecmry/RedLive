@@ -3,7 +3,10 @@ package fight.tecmry.com.redlive.Fragment;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -24,8 +27,17 @@ import java.util.HashMap;
 
 import fight.tecmry.com.redlive.Activity.Enter;
 import fight.tecmry.com.redlive.Activity.UserEditor;
+import fight.tecmry.com.redlive.Activity.WithMe;
+import fight.tecmry.com.redlive.Bean.EverydaySentenceData;
 import fight.tecmry.com.redlive.R;
 import fight.tecmry.com.redlive.Util.Constant;
+import fight.tecmry.com.redlive.Util.EverydayInterface;
+import fight.tecmry.com.redlive.Util.GlideCircleTransform;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 
 public class User_Fragment extends Fragment implements View.OnClickListener{
@@ -34,10 +46,21 @@ public class User_Fragment extends Fragment implements View.OnClickListener{
     private boolean isEnter = false;
 
     private ImageView userimage;
+
     private TextView username;
+    private TextView with;
+    private TextView  everydaysentence;
+    private TextView OutEnter;
     private AVUser avUser;
 
-    private TextView OutEnter;
+    private Handler handler;
+
+    private static String path = "/sdcard/"+Constant.User.avuser.getUsername()+"/";
+    private static String BASE_URL= "http://open.iciba.com";
+    private String sentenceUrl;
+    private String sentence;
+    private String text;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -58,32 +81,51 @@ public class User_Fragment extends Fragment implements View.OnClickListener{
 
         OutEnter = (TextView)view.findViewById(R.id.out_enter);
         OutEnter.setOnClickListener(this);
+        with = (TextView)view.findViewById(R.id.textView8);
 
+        everydaysentence = (TextView)view.findViewById(R.id.everydaycount);
+        everydaysentence.setOnClickListener(this);
+
+        with.setOnClickListener(this);
         avUser = AVUser.getCurrentUser();
       if (Constant.User.isLogin()) {
           username.setText(avUser.getUsername());
       }
-
+    LoadSentence();
+      handler = new Handler()
+      {
+          @Override
+          public void handleMessage(Message msg) {
+              super.handleMessage(msg);
+              switch (msg.what)
+              {
+                  case 0:
+                      everydaysentence.setText((CharSequence) msg.obj);
+                      break;
+              }
+          }
+      };
     }
     private void loadImage(final ImageView imageView)
     {
-        Bitmap bitmap = BitmapFactory.decodeFile(Constant.FilePath.ROOT_PATH +Constant.FilePath.USER_NAME + "/head.jpg");
+        Bitmap bitmap = BitmapFactory.decodeFile(path + "head.jpg");
         if (bitmap!=null)
         {
-            imageView.setImageBitmap(bitmap);
+           imageView.setImageBitmap(bitmap);
         }else {new Thread(new Runnable() {
             @Override
             public void run() {
                 AVFile avFile = new AVFile(Constant.User.avuser.getUsername() + ".jpg",
                         (String) Constant.User.avuser.get("headImage"),new HashMap<String,Object>());
-            avFile.getDataInBackground(new GetDataCallback() {
-                @Override
-                public void done(byte[] bytes, AVException e) {
-                    if (bytes!=null) {
-                        Glide.with(getActivity().getApplicationContext()).load(bytes).into(imageView);
+                avFile.getDataInBackground(new GetDataCallback() {
+                    @Override
+                    public void done(byte[] bytes, AVException e) {
+                        if (bytes!=null) {
+                            Glide.with(getContext()).load(bytes).
+                                    transform(new GlideCircleTransform(getContext())).into(imageView);
+                        }
                     }
-                }
-            });
+                });
             }
         }).start();
         }
@@ -111,11 +153,55 @@ public class User_Fragment extends Fragment implements View.OnClickListener{
                    username.setText("");
                }
                break;
+            case R.id.textView8:
+                startActivity(new Intent(getContext(), WithMe.class));
+                break;
+            case R.id.everydaycount:
+
+                Toast.makeText(getContext(),"前往下载英文版录音",Toast.LENGTH_SHORT).show();
+                if (!sentenceUrl.isEmpty()) {
+                    Intent intent = new Intent();
+                    intent.setAction(Intent.ACTION_VIEW);
+                    Uri uri = Uri.parse(sentenceUrl);
+                    intent.setData(uri);
+                    startActivity(Intent.createChooser(intent, "请选择浏览器"));
+                }
+                break;
         }
 
     }
 
+    private void LoadSentence()
+    {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Retrofit retrofit =new Retrofit.Builder()
+                        .baseUrl(BASE_URL)
+                        .addConverterFactory(GsonConverterFactory.create())
+                        .build();
+                EverydayInterface Einterface = retrofit.create(EverydayInterface.class);
+                Call<EverydaySentenceData> call = Einterface.getSentence();
+                call.enqueue(new Callback<EverydaySentenceData>() {
+                    @Override
+                    public void onResponse(Call<EverydaySentenceData> call, Response<EverydaySentenceData> response) {
+                        EverydaySentenceData data = response.body();
+                        sentence = data.getNote();
+                        sentenceUrl = data.getTts();
+                        Message message = new Message();
+                        message.obj = sentence;
+                        message.what = 0;
+                        handler.sendMessage(message);
+                    }
 
+                    @Override
+                    public void onFailure(Call<EverydaySentenceData> call, Throwable t) {
+                        Toast.makeText(getContext(),"每日一句加载出了问题",Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        }).start();
+    }
 
     @Override
     public void onResume() {

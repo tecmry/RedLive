@@ -13,7 +13,8 @@
         android:background="@color/toolbarcolor"
         android:navigationIcon="@drawable/back"
         app:navigationIcon="@drawable/back"
-        ></android.support.v7.widget.Toolbar>
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"></android.support.v7.widget.Toolbar>
 
     <TextView
         android:id="@+id/usernews_username"
@@ -27,137 +28,86 @@
 
 <RelativeLayout
     android:layout_width="match_parent"
-    android:layout_height="60dp"
-    android:layout_below="@+id/usernews_toolbar"
-    android:layout_marginTop="4dp"
+    android:layout_height="80dp"
     android:background="@color/white"
-    android:id="@+id/relativeLayout">
+    android:id="@+id/relativeLayout"
+    android:layout_below="@+id/usernews_toolbar"
+    android:layout_alignParentStart="true"
+    android:layout_marginTop="5dp"
+    >
 
 </RelativeLayout>
 
-    <TextView
-        android:id="@+id/studytimes_details"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignTop="@+id/relativeLayout"
-        android:layout_marginStart="31dp"
-        android:layout_marginTop="13dp"
-         />
 
-    <TextView
-        android:id="@+id/studytimes"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/studytime"
-        android:layout_below="@+id/studytimes_details"
-        android:layout_alignStart="@+id/studytimes_details"
-        android:layout_marginTop="10dp"
-        android:gravity="center"
-        />
-
-    <TextView
-        android:id="@+id/addItems_details"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/studytimes_details"
-        android:layout_centerHorizontal="true" />
-
-    <TextView
-        android:id="@+id/addItems"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/addItems"
-        android:layout_alignBaseline="@+id/studytimes"
-        android:layout_alignBottom="@+id/studytimes"
-        android:gravity="center"
-        android:layout_centerHorizontal="true" />
-
-    <TextView
-        android:id="@+id/continuestudy_details"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignTop="@+id/addItems_details"
-        android:layout_marginEnd="25dp"
-         />
-
-    <TextView
-        android:id="@+id/continuestudy"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/continuestudy"
-        android:layout_alignBaseline="@+id/addItems"
-        android:gravity="center"
-        android:layout_alignBottom="@+id/addItems"
-        android:layout_toStartOf="@+id/continuestudy_details" />
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="270dp"
         android:background="@color/white"
         android:id="@+id/relativeLayout2"
-        android:layout_marginTop="3dp"
         android:layout_below="@+id/relativeLayout"
-        android:layout_alignParentStart="true">
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="5dp"
+        >
 
 
     </RelativeLayout>
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
         android:layout_alignParentStart="true"
         android:layout_alignTop="@+id/relativeLayout2"
         android:layout_marginStart="15dp"
         android:layout_marginTop="14dp"
-        app:srcCompat="@android:drawable/alert_dark_frame" />
+        app:srcCompat="@drawable/withme" />
 
     <TextView
         android:id="@+id/textView8"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="17dp"
-        android:text="TextView"
+        android:text="与我相关"
         android:layout_alignTop="@+id/imageView"
-        android:layout_toEndOf="@+id/studytimes" />
+        android:layout_toStartOf="@+id/usernews_username"
+        android:layout_marginTop="10dp"
+        />
 
     <ImageView
         android:id="@+id/imageView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/imageView"
-        android:layout_below="@+id/imageView"
-        android:layout_marginTop="11dp"
-        app:srcCompat="@android:drawable/alert_dark_frame" />
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_marginTop="23dp"
+        app:srcCompat="@drawable/common"
+        android:layout_below="@+id/linearLayout2"
+        android:layout_alignStart="@+id/imageView" />
 
     <TextView
         android:id="@+id/textView9"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="TextView"
-        android:layout_alignTop="@+id/imageView2"
         android:layout_alignStart="@+id/textView8"
-        android:layout_marginTop="16dp" />
+        android:layout_alignTop="@+id/imageView2"
+        android:layout_marginTop="10dp"
+        android:text="今日推荐" />
 
     <ImageView
         android:id="@+id/imageView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/relativeLayout2"
-        android:layout_alignEnd="@+id/imageView2"
-        android:layout_marginBottom="18dp"
-        app:srcCompat="@android:drawable/alert_dark_frame" />
+        app:srcCompat="@drawable/edit"
+        android:layout_marginTop="26dp"
+        android:layout_below="@+id/imageView4"
+        android:layout_alignStart="@+id/imageView4" />
 
     <TextView
         android:id="@+id/out_enter"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/outenter"
-        android:layout_alignBottom="@+id/imageView3"
-        android:layout_alignStart="@+id/textView9"
-        android:layout_marginBottom="15dp" />
+        android:layout_marginTop="7dp"
+        android:layout_alignTop="@+id/imageView3"
+        android:layout_alignStart="@+id/textView9" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -165,7 +115,8 @@
         android:orientation="horizontal"
         android:layout_below="@+id/imageView"
         android:background="@color/black"
-        android:layout_alignStart="@+id/textView8"/>
+        android:layout_toEndOf="@+id/imageView2"
+        android:id="@+id/linearLayout2" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -174,8 +125,8 @@
         android:layout_below="@+id/imageView2"
         android:orientation="horizontal"
         android:layout_alignParentEnd="true"
-        android:layout_alignStart="@+id/textView9"
-        android:id="@+id/linearLayout" />
+        android:id="@+id/linearLayout"
+        android:layout_toEndOf="@+id/imageView2" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -184,43 +135,61 @@
         android:layout_alignBottom="@+id/imageView3"
         android:orientation="horizontal"
         android:layout_alignParentEnd="true"
-        />
+        android:layout_toEndOf="@+id/imageView3" />
 
     <ImageView
         android:id="@+id/usernews_userimage"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:layout_alignBottom="@+id/usernews_username"
+        android:layout_width="65dp"
+        android:layout_height="70dp"
+        android:layout_above="@+id/usernews_username"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="15dp"
-        app:srcCompat="@android:drawable/alert_dark_frame" />
+        android:layout_marginBottom="18dp"
+        app:srcCompat="?android:attr/fingerprintAuthDrawable" />
 
     <ImageView
         android:id="@+id/imageView4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:srcCompat="@android:drawable/alert_dark_frame"
-        android:layout_above="@+id/imageView3"
-        android:layout_alignStart="@+id/imageView3"
-        android:layout_marginBottom="10dp" />
+        app:srcCompat="@drawable/havetrouble"
+        android:layout_marginTop="27dp"
+        android:layout_below="@+id/linearLayout"
+        android:layout_toStartOf="@+id/linearLayout" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:orientation="vertical"
+        android:background="@color/black"
+        android:layout_alignBottom="@+id/imageView4"
+        android:layout_toEndOf="@+id/imageView4"
+        android:id="@+id/linearLayout3" />
+
+    <TextView
+        android:id="@+id/everyday"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/imageView"
+        android:layout_alignTop="@+id/relativeLayout"
+        android:layout_marginTop="13dp"
+        android:textSize="17sp"
+        android:text="@string/everydaysentence" />
+
+    <TextView
+        android:id="@+id/everydaycount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/everyday"
+        android:layout_below="@+id/everyday"
+        android:layout_marginTop="12dp"
+        android:textSize="14sp" />
 
     <TextView
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/imageView4"
-        android:layout_alignStart="@+id/linearLayout"
-        android:layout_marginBottom="13dp"
-        android:text="TextView" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_alignParentEnd="true"
-        android:layout_alignStart="@+id/textView2"
-        android:layout_below="@+id/textView2"
-        android:orientation="vertical"
-        android:background="@color/black"
-        />
+        android:layout_alignStart="@+id/textView9"
+        android:layout_alignTop="@+id/imageView4"
+        android:text="意见反馈" />
 
 </RelativeLayout>
