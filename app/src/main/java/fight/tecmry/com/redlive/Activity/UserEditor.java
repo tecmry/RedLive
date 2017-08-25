@@ -80,7 +80,7 @@ public class UserEditor extends AppCompatActivity implements View.OnClickListene
 
     private void init() {
         toolbar = (Toolbar) findViewById(R.id.usereditor_toolbar);
-        toolbar.setTitle(Constant.User.avuser.getUsername());
+        toolbar.setTitle(AVUser.getCurrentUser().getUsername());
         setSupportActionBar(toolbar);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override

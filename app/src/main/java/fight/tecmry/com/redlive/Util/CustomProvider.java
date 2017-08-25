@@ -24,12 +24,24 @@ public class CustomProvider implements LCChatProfileProvider{
     }
     private CustomProvider(){}
 
-    private void addList()
-    {
-
-    }
+  static {
+      userList.add(new LCChatKitUser("599d72661b69e6006a2ab50f",
+              "abc","http://ac-8gYICsgi.clouddn.com/Cdd4Z6uxOjDAjwgH5id0Dayr6FlIZwJmnINhsZR7.jpg"));
+  }
     @Override
     public void fetchProfiles(List<String> userIdList, LCChatProfilesCallBack profilesCallBack) {
-
+        List<LCChatKitUser> userList = new ArrayList<LCChatKitUser>();
+        for (String userId : userIdList) {
+            for (LCChatKitUser user :userList) {
+                if (user.getUserId().equals(userId)) {
+                    userList.add(user);
+                    break;
+                }
+            }
+        }
+        profilesCallBack.done(userList, null);
+    }
+    public List<LCChatKitUser> getAllUsers() {
+        return userList;
     }
 }

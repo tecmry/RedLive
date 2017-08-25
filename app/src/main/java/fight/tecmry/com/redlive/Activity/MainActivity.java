@@ -55,9 +55,6 @@ import fight.tecmry.com.redlive.Util.Constant;
                 public void onTabSelected(TabLayout.Tab tab) {
                     Log.d("MainActivity", tab.getText().toString());
                     switch (tab.getText().toString()) {
-                        case "首页":
-                            getSupportFragmentManager().beginTransaction().replace(R.id.add_Fragment, new HomePage_Fragment()).commit();
-                            break;
                         case "圈子":
                             getSupportFragmentManager().beginTransaction().replace(R.id.add_Fragment, new State_Fragment()).commit();
                             break;

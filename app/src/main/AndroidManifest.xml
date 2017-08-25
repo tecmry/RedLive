@@ -33,6 +33,7 @@
         <activity android:name=".Activity.Register"></activity>
         <activity android:name=".Activity.WithMe"></activity>
         <activity android:name=".Activity.LiveNow"></activity>
+        <activity android:name=".Activity.SeachCount"></activity>
         <activity android:name=".Activity.StartActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

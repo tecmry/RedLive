@@ -5,6 +5,7 @@ import android.app.Application;
 import com.avos.avoscloud.AVOSCloud;
 
 import cn.leancloud.chatkit.LCChatKit;
+import fight.tecmry.com.redlive.Util.CustomProvider;
 
 public class MyLeanCloud extends Application {
     private static final String APP_ID =  "8gYICsgijm604TfN1LQG9Vb3-gzGzoHsz";
@@ -15,6 +16,7 @@ public class MyLeanCloud extends Application {
             // 初始化参数依次为 this, AppId, AppKey
             AVOSCloud.initialize(this, APP_ID,  APP_KEY);
             LCChatKit.getInstance().init(getApplicationContext(), APP_ID, APP_KEY);
+            LCChatKit.getInstance().setProfileProvider(CustomProvider.getInstance());
         }
 
 

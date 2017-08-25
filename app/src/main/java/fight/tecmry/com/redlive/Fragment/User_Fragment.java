@@ -10,6 +10,7 @@ import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,6 +27,7 @@ import com.bumptech.glide.Glide;
 import java.util.HashMap;
 
 import fight.tecmry.com.redlive.Activity.Enter;
+import fight.tecmry.com.redlive.Activity.SeachCount;
 import fight.tecmry.com.redlive.Activity.UserEditor;
 import fight.tecmry.com.redlive.Activity.WithMe;
 import fight.tecmry.com.redlive.Bean.EverydaySentenceData;
@@ -33,6 +35,7 @@ import fight.tecmry.com.redlive.R;
 import fight.tecmry.com.redlive.Util.Constant;
 import fight.tecmry.com.redlive.Util.EverydayInterface;
 import fight.tecmry.com.redlive.Util.GlideCircleTransform;
+import fight.tecmry.com.redlive.View.SelectPopUpWindow;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -43,7 +46,6 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class User_Fragment extends Fragment implements View.OnClickListener{
     private final static String TAG = "user_fragment";
 
-    private boolean isEnter = false;
 
     private ImageView userimage;
 
@@ -51,6 +53,9 @@ public class User_Fragment extends Fragment implements View.OnClickListener{
     private TextView with;
     private TextView  everydaysentence;
     private TextView OutEnter;
+    private TextView getBack;
+    private TextView hot;
+    private ImageView Im_back;
     private AVUser avUser;
 
     private Handler handler;
@@ -61,6 +66,7 @@ public class User_Fragment extends Fragment implements View.OnClickListener{
     private String sentence;
     private String text;
 
+    private SelectPopUpWindow popUpWindow;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -82,12 +88,19 @@ public class User_Fragment extends Fragment implements View.OnClickListener{
         OutEnter = (TextView)view.findViewById(R.id.out_enter);
         OutEnter.setOnClickListener(this);
         with = (TextView)view.findViewById(R.id.textView8);
-
         everydaysentence = (TextView)view.findViewById(R.id.everydaycount);
         everydaysentence.setOnClickListener(this);
-
         with.setOnClickListener(this);
+
+        getBack = (TextView)view.findViewById(R.id.textView2);
+        getBack.setOnClickListener(this);
+
+        hot = (TextView)view.findViewById(R.id.textView9);
+        hot.setOnClickListener(this);
+        Im_back = (ImageView)view.findViewById(R.id.imageView4);
+        Im_back.setOnClickListener(this);
         avUser = AVUser.getCurrentUser();
+
       if (Constant.User.isLogin()) {
           username.setText(avUser.getUsername());
       }
@@ -154,7 +167,11 @@ public class User_Fragment extends Fragment implements View.OnClickListener{
                }
                break;
             case R.id.textView8:
+                if (Constant.User.isLogin()){
                 startActivity(new Intent(getContext(), WithMe.class));
+                }else {
+                    startActivity(new Intent(getContext(),Enter.class));
+                }
                 break;
             case R.id.everydaycount:
 
@@ -167,10 +184,24 @@ public class User_Fragment extends Fragment implements View.OnClickListener{
                     startActivity(Intent.createChooser(intent, "请选择浏览器"));
                 }
                 break;
+            case R.id.textView2:
+                showPop();
+                break;
+            case R.id.imageView4:
+                showPop();
+                break;
+            case R.id.textView9:
+                startActivity(new Intent(getContext(), SeachCount.class));
+                break;
         }
 
     }
-
+    private void showPop()
+    {
+        popUpWindow = new SelectPopUpWindow(getActivity());
+        popUpWindow.showAtLocation(getActivity().findViewById(R.id.main_parent),
+                Gravity.BOTTOM|Gravity.CENTER_HORIZONTAL,0,0);
+    }
     private void LoadSentence()
     {
         new Thread(new Runnable() {

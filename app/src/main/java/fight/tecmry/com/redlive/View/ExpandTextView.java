@@ -5,9 +5,6 @@ import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.widget.LinearLayout;
 
-/**
- * Created by Tecmry on 2017/8/21.
- */
 
 public class ExpandTextView extends LinearLayout {
     public ExpandTextView(Context context) {
