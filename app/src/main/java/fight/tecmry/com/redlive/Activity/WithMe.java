@@ -77,6 +77,7 @@ public class WithMe extends AppCompatActivity
                     Toast.makeText(WithMe.this,"是不是没联网呢",Toast.LENGTH_SHORT).show();
                     Log.d("Witheme",e.toString());
                 }
+
             }
         });
     }
