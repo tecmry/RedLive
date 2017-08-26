@@ -10,9 +10,11 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.avos.avoscloud.AVException;
 import com.avos.avoscloud.AVObject;
 import com.avos.avoscloud.AVQuery;
 import com.avos.avoscloud.AVUser;
+import com.avos.avoscloud.FindCallback;
 import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
@@ -47,7 +49,7 @@ public class ShowItemAdapter extends RecyclerView.Adapter<ShowItemAdapter.ViewHo
     }
 
     @Override
-    public void onBindViewHolder(ShowItemAdapter.ViewHolder holder, final int position)
+    public void onBindViewHolder(final ShowItemAdapter.ViewHolder holder, final int position)
     {
         holder.Title.setText((CharSequence) list.get(position).get("name"));
         holder.Author.setText((CharSequence) list.get(position).get("Author"));
@@ -56,21 +58,27 @@ public class ShowItemAdapter extends RecyclerView.Adapter<ShowItemAdapter.ViewHo
         final String[] url = {null};
         holder.like.setText((CharSequence) list.get(position).get("Like"));
         holder.like.setText((CharSequence)list.get(position).get("View"));
-        String userId = (String) list.get(position).get("userId");
+        final String userId = (String) list.get(position).get("userId");
         AVQuery<AVUser> userQuery = new AVQuery<>("_User");
         userQuery.whereEqualTo("objectId",userId);
-        /**
+
         userQuery.findInBackground(new FindCallback<AVUser>() {
             @Override
             public void done(List<AVUser> list, AVException e) {
                 if (e==null) {
                     AVUser user = list.get(0);
-                    url[0] = (String) user.get("imageUrl");
+                    System.out.println("useId" + user.get("imageUrl"));
+                    if (user.get("imageUrl")!= null)
+                    {
+                        Glide.with(context).load(user.get("imageUrl")).into(holder.imageView);
+                    }else {
+                        Glide.with(context).load(R.drawable.grouptalk).into(holder.imageView);
+                    }
                 }
 
             }
-        });*/
-        Glide.with(context).load(R.drawable.grouptalk).into(holder.imageView);
+        });
+
         /**
         if (!url[0].isEmpty())
         {
