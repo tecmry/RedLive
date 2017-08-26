@@ -52,6 +52,7 @@ public class WithMe extends AppCompatActivity
             @Override
             public void onRefresh() {
                 with();
+                refreshLayout.setRefreshing(false);
             }
         });
     }
@@ -67,12 +68,11 @@ public class WithMe extends AppCompatActivity
                     Log.d("WithMe", String.valueOf(list.size()));
                     mList = list;
                     adapter = new WithItemAdapter(mList,getApplicationContext());
-                    adapter = new WithItemAdapter(mList,getApplicationContext());
                     layoutManager = new LinearLayoutManager(getApplicationContext());
                     recyclerView.setLayoutManager(layoutManager);
                     recyclerView.setAdapter(adapter);
                     adapter.notifyDataSetChanged();
-                    refreshLayout.setRefreshing(false);
+                    //refreshLayout.setRefreshing(false);
                 }else {
                     Toast.makeText(WithMe.this,"是不是没联网呢",Toast.LENGTH_SHORT).show();
                     Log.d("Witheme",e.toString());

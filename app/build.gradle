@@ -2,10 +2,6 @@ apply plugin: 'com.android.application'
 
 android {
     signingConfigs {
-        release {
-            keyAlias 'tecmry'
-            keyPassword '123456cqupt'
-        }
     }
     compileSdkVersion 25
     buildToolsVersion "25.0.2"
@@ -21,9 +17,6 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-        }
-        debug {
-            signingConfig signingConfigs.release
         }
     }
     packagingOptions {

@@ -83,41 +83,45 @@ public class WithItemAdapter extends RecyclerView.Adapter<WithItemAdapter.ViewHo
     }
     private void Check(WithItemAdapter.ViewHolder holder,int position)
     {
-        AVIMConversation conversation = list.get(position);
-        ConversationId = conversation.getConversationId();
-        //获取Conversation的名字
-        String conversationname = conversation.getName();
-        Log.d("WithMe","Conversationname"+conversationname);
-        AVIMMessage lasttalkmessage = conversation.getLastMessage();
-        //获取消息发送时间
-        Date  date = conversation.getLastMessageAt();
-        DateFormat df = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-        Gson gson = new Gson();
-        WithMeData data = gson.fromJson(lasttalkmessage.getContent(),WithMeData.class);
-        String Content = data.get_lctext();
-        final int members = conversation.getMembers().size();
-        String creator  =conversation.getCreator();
+        try{
+            AVIMConversation conversation = list.get(position);
+            ConversationId = conversation.getConversationId();
+            //获取Conversation的名字
+            String conversationname = conversation.getName();
+            Log.d("WithMe","Conversationname"+conversationname);
+            AVIMMessage lasttalkmessage = conversation.getLastMessage();
+            //获取消息发送时间
+            Date  date = conversation.getLastMessageAt();
+            DateFormat df = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+            Gson gson = new Gson();
+            WithMeData data = gson.fromJson(lasttalkmessage.getContent(),WithMeData.class);
+            String Content = data.get_lctext();
+            final int members = conversation.getMembers().size();
+            String creator  =conversation.getCreator();
 
 
-        if (members>2)
-        {
-            holder.talkername.setText(conversationname);
-            holder.lastTalk.setText(Content);
-            holder.talktime.setText(df.format(date));
-        }else if (members <=2)
-        {
-            holder.talkername.setText(creator);
-            holder.lastTalk.setText(Content);
-            holder.talktime.setText(df.format(date));
-        }
-        holder.relativeLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(mContext,LCIMConversationActivity.class);
-                intent.putExtra(LCIMConstants.CONVERSATION_ID, ConversationId);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                mContext.startActivity(intent);
+            if (members>2)
+            {
+                holder.talkername.setText(conversationname);
+                holder.lastTalk.setText(Content);
+                holder.talktime.setText(df.format(date));
+            }else if (members <=2)
+            {
+                holder.talkername.setText(creator);
+                holder.lastTalk.setText(Content);
+                holder.talktime.setText(df.format(date));
             }
-        });
+            holder.relativeLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(mContext,LCIMConversationActivity.class);
+                    intent.putExtra(LCIMConstants.CONVERSATION_ID, ConversationId);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    mContext.startActivity(intent);
+                }
+            });
+        } catch (NullPointerException ee){
+            ee.printStackTrace();
+        }
     }
 }
