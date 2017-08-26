@@ -244,6 +244,8 @@ public class UserEditor extends AppCompatActivity implements View.OnClickListene
                                             if (e==null)
                                             {
                                                 Log.d(TAG,"OK");
+                                               startActivity(new Intent(UserEditor.this,MainActivity.class));
+                                                finish();
                                             }
                                         }
                                     });

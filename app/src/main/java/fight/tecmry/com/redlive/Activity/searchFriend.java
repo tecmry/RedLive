@@ -91,13 +91,18 @@ public class searchFriend extends AppCompatActivity
             public void done(List<AVUser> list, AVException e) {
                 if (e==null)
                 {
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            cardView.setVisibility(View.VISIBLE);
-                            textView.setText(name);
-                        }
-                    });
+                   if (list.size()==0){
+                       Toast.makeText(searchFriend.this,"查无此人",Toast.LENGTH_SHORT).show();
+                   }else
+                       {
+                           runOnUiThread(new Runnable() {
+                               @Override
+                               public void run() {
+                                   cardView.setVisibility(View.VISIBLE);
+                                   textView.setText(name);
+                               }
+                           });
+                       }
                 }else {
                     Toast.makeText(searchFriend.this,"要不就是没网络要不就是查无此人",Toast.LENGTH_SHORT).show();
                 }

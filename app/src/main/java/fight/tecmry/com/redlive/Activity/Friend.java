@@ -108,9 +108,11 @@ public class Friend extends AppCompatActivity {
                                    Tv_username.setText(username);
                                    Tv_email.setText(email);
                                    Tv_hobby.setText(hobby);
-                                   Glide.with(Friend.this).load(url).
-                                           transform(new GlideCircleTransform(getApplicationContext()))
-                                           .into(Iv_user);
+                                   if (!url.isEmpty()) {
+                                       Glide.with(Friend.this).load(url).
+                                               transform(new GlideCircleTransform(getApplicationContext()))
+                                               .into(Iv_user);
+                                   }
                                }
                            });
                        }catch (IndexOutOfBoundsException se){
