@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 
@@ -31,6 +32,10 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 
 public class StartActivity extends AppCompatActivity {
+
+    /***
+     * 在网速较差的情况下没法进行图片加载
+     * */
     private ImageView imageView;
     private TextView textView;
     public static final String BASE_URL="http://www.bing.com";
@@ -89,6 +94,8 @@ public class StartActivity extends AppCompatActivity {
                        int c = random.nextInt(7);
                        String url =addUrl+imageData.getImages().get(c).getUrl();
                        String copyright = imageData.getImages().get(c).getCopyright();
+                       Log.d("StartActivity",copyright);
+                       Toast.makeText(StartActivity.this,copyright,Toast.LENGTH_SHORT).show();
                        Message message = Message.obtain();
                        message.obj = url;
                        message.what = imageurl;

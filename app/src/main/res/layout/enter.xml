@@ -58,33 +58,29 @@
     <LinearLayout
         android:layout_marginTop="15dp"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
         >
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_marginLeft="15dp"
-            android:layout_marginRight="15dp"
-            android:layout_marginTop="10dp"
-            android:id="@+id/enter_countname"
-            android:maxLines="1"
-            android:hint="@string/entercountnamehint"
-            android:maxLength="20"
-            />
+      <fight.tecmry.com.redlive.View.TextFieldBoxes
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_marginLeft="40dp"
+          android:id="@+id/Tb_username"
+          android:layout_marginRight="40dp"
+          android:hint="tkhksh"
+          app:hint="用户名"
+          app:singleLine="true"
 
-    <EditText
+          />
+    <fight.tecmry.com.redlive.View.TextFieldBoxes
         android:id="@+id/enter_passwords"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
-        android:layout_marginTop="15dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+
         android:hint="@string/enterpasswordshint"
-        android:maxLines="1"
-        android:inputType="textPassword"
-        android:maxLength="20" />
+        app:hint="密码" />
 
     </LinearLayout>
 
@@ -93,13 +89,12 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:background="@color/entertextview"
-        android:layout_marginTop="93dp"
         android:textColor="@color/white"
         android:layout_gravity="center"
         android:gravity="center"
         android:text="@string/enter"
         android:id="@+id/enter_Tv"
-
+        android:layout_marginTop="70dp"
         />
 
 </LinearLayout>

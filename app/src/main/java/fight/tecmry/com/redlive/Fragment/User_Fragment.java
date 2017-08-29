@@ -47,6 +47,10 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 
 public class User_Fragment extends Fragment implements View.OnClickListener{
+
+    /**
+     * 每日一句在手机上因为网速较差没法查出来这是一个Bug
+     * */
     private final static String TAG = "user_fragment";
 
 
@@ -242,6 +246,8 @@ public class User_Fragment extends Fragment implements View.OnClickListener{
 
                     @Override
                     public void onFailure(Call<EverydaySentenceData> call, Throwable t) {
+                        Log.d("User_Fragment",t.toString());
+
                         Toast.makeText(getContext(),"每日一句加载出了问题",Toast.LENGTH_SHORT).show();
                     }
                 });

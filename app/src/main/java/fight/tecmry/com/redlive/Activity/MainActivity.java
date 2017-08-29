@@ -110,7 +110,8 @@ import fight.tecmry.com.redlive.Util.Constant;
         }
 
         @Override
-        public void onBackPressed() {
+        public void onBackPressed()
+        {
             exit();
         }
 

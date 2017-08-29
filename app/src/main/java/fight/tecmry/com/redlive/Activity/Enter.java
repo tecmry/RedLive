@@ -9,7 +9,6 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -25,14 +24,16 @@ import com.avos.avoscloud.im.v2.callback.AVIMClientCallback;
 
 import cn.leancloud.chatkit.LCChatKit;
 import fight.tecmry.com.redlive.R;
+import fight.tecmry.com.redlive.View.TextFieldBoxes;
 
 /**
  * Created by Tecmry on 2017/8/16.
  */
 
 public class Enter extends AppCompatActivity implements View.OnClickListener{
-    private EditText UserName;
-    private EditText PassWords;
+    //private EditText UserName;
+    private TextFieldBoxes UserName;
+    private TextFieldBoxes PassWords;
 
     private View  LoginFormView;
     private ProgressBar  ProgressView;
@@ -51,9 +52,9 @@ public class Enter extends AppCompatActivity implements View.OnClickListener{
 
     private void init()
     {
-        UserName = (EditText)findViewById(R.id.enter_countname);
+        UserName=(TextFieldBoxes)findViewById(R.id.Tb_username);
         UserName.setOnClickListener(this);
-        PassWords = (EditText)findViewById(R.id.enter_passwords);
+        PassWords = (TextFieldBoxes)findViewById(R.id.enter_passwords);
        PassWords.setOnClickListener(this);
 
         GoToEnter = (TextView)findViewById(R.id.enter_Tv);
