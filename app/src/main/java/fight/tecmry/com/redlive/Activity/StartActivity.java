@@ -1,5 +1,6 @@
 package fight.tecmry.com.redlive.Activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
@@ -21,6 +22,7 @@ import java.util.Random;
 import fight.tecmry.com.redlive.Bean.ImageData;
 import fight.tecmry.com.redlive.R;
 import fight.tecmry.com.redlive.Util.ImageInterface;
+import fight.tecmry.com.redlive.Util.NetWorkUntils;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -43,14 +45,22 @@ public class StartActivity extends AppCompatActivity {
     private Handler handler;
     private static final int imageurl = 1;
     private static final int right = 2;
+    private static Context mContext;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.startactivity);
         chexk();
+        mContext = getApplicationContext();
         imageView = (ImageView)findViewById(R.id.start_image);
         textView = (TextView)findViewById(R.id.start_TextView);
-        NetUtil();
+        if (NetWorkUntils.isNetWorkConnected(mContext))
+        {
+            NetUtil();
+        }else
+        {
+            Toast.makeText(StartActivity.this,"无网络链接",Toast.LENGTH_SHORT).show();
+        }
         handler = new Handler(){
             @Override
             public void handleMessage(Message msg) {
